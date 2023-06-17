@@ -28,6 +28,17 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
         }
+
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Time.timeScale = 0.2f;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            Time.timeScale = 1f;
+        }
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)

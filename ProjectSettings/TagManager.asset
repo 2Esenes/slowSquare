@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - FxTemporaire
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -39,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: 0
+    uniqueID: 34560953
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
