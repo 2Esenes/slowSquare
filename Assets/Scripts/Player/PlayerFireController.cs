@@ -13,12 +13,12 @@ public class PlayerFireController : MonoBehaviour
     public GameObject fireRotate;
     public float FireForce = 30;
 
-    private Rigidbody2D rb;
+    
     Vector2 mousePos;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+       
     }
 
     private void Update()

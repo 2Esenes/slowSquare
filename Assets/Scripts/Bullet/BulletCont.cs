@@ -24,6 +24,12 @@ public class BulletCont : MonoBehaviour
 
             Destroy(gameObject);
         }
+        if (collision.transform.tag == "Player")
+        {
+            Instantiate(_hitEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+
         if (collision.transform.tag == "Ground")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);

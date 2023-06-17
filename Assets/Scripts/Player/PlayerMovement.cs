@@ -6,13 +6,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
-    private bool isJumping = false;
+    [SerializeField]private bool isJumping = true;
     private Rigidbody2D rb;
     private RaycastHit2D raycastHit;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Time.timeScale = 0.2f;
     }
 
     void Update()
@@ -29,15 +30,37 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
         }
 
+        //zaman
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            Time.timeScale = 0.2f;
-        }
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (isJumping == true)
         {
             Time.timeScale = 1f;
         }
+        else
+        {
+            Time.timeScale = 0.2f;
+        }
+        if (Input.GetMouseButton(0))
+        {
+            Time.timeScale = 1f;
+            if (Input.GetMouseButtonUp(0))
+            {
+                Time.timeScale = 0.2f;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            Time.timeScale = 1f;
+            if (Input.GetKeyUp(KeyCode.A)) { Time.timeScale = 0.2f; }
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            Time.timeScale = 1f;
+            if (Input.GetKeyUp(KeyCode.D)) { Time.timeScale = 0.2f; }
+        }
+
 
     }
 
