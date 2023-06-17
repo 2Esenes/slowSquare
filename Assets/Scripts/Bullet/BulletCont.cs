@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletCont : MonoBehaviour
 {
     public GameObject _hitEffect;
+    public float knockBackStrength;
 
     private void Start()
     {
@@ -16,6 +17,11 @@ public class BulletCont : MonoBehaviour
         if (collision.transform.tag == "Enemy")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);
+            
+            Vector2 knockDirection = collision.transform.position - transform.position;
+            Rigidbody2D enemRb = collision.GetComponent<Rigidbody2D>();
+            enemRb.AddForce(knockDirection.normalized * knockBackStrength, ForceMode2D.Impulse);
+
             Destroy(gameObject);
         }
         if (collision.transform.tag == "Ground")

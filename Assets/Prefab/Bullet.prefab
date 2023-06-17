@@ -203,3 +203,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitEffect: {fileID: 7311781923186036133, guid: 8599f84822b84e841ac3f7f39a6e5268, type: 3}
+  knockBackStrength: 6
