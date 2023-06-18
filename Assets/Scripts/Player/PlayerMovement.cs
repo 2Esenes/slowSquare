@@ -66,16 +66,12 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-        }
 
         if (collision.transform.tag == "Bullet")
         {
+            print("wtf");
             GetComponent<SpriteRenderer>().enabled = false;
             var eyes = GetComponentsInChildren<SpriteRenderer>();
             for (int i = 0; i < eyes.Length; i++)
@@ -84,6 +80,14 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+        }
+
     }
 
 
