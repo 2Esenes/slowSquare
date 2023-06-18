@@ -14,33 +14,13 @@ public class EnemyBasicController : MonoBehaviour
     public GameObject Player;
     public float shootTime = 3;
 
+    public GameObject _dieEffect;
+
     private void Start()
     {
         
     }
-    // Oyuncu objesinin referansý
 
-    //private void Update()
-    //{
-    //    shootTime -= Time.deltaTime;
-    //    if (target != null)
-    //    {
-    //        // Oyuncunun pozisyonunu al
-    //        Vector3 direction = target.position - transform.position;
-    //        direction.Normalize();
-
-    //        // Taretin dönme açýsýný hesapla
-    //        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-    //        // Tareti döndür
-    //        fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    //    }
-    //    if (shootTime <= 0)
-    //    {
-    //        shootTime = 3; 
-    //        Fire();
-    //    }
-    //}
     private void Update()
     {
         shootTime -= Time.deltaTime;
@@ -62,5 +42,10 @@ public class EnemyBasicController : MonoBehaviour
     {
         GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+    }
+    public void Die()
+    {
+        Instantiate(_dieEffect , transform.position , transform.rotation);
+        Destroy(gameObject);
     }
 }

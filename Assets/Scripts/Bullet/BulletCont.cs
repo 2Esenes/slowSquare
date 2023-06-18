@@ -21,7 +21,7 @@ public class BulletCont : MonoBehaviour
             Vector2 knockDirection = collision.transform.position - transform.position;
             Rigidbody2D enemRb = collision.GetComponent<Rigidbody2D>();
             enemRb.AddForce(knockDirection.normalized * knockBackStrength, ForceMode2D.Impulse);
-
+            collision.GetComponent<EnemyBasicController>().Die();
             Destroy(gameObject);
         }
         if (collision.transform.tag == "Player")

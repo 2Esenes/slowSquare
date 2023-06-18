@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private RaycastHit2D raycastHit;
 
+
+    public bool _gameStop = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,8 +33,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
         }
 
-        //zaman
-
+        #region time
         if (isJumping == true)
         {
             Time.timeScale = 1f;
@@ -60,9 +62,10 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 1f;
             if (Input.GetKeyUp(KeyCode.D)) { Time.timeScale = 0.2f; }
         }
-
+        #endregion
 
     }
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -70,5 +73,23 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
         }
+
+        if (collision.transform.tag == "Bullet")
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            var eyes = GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 0; i < eyes.Length; i++)
+            {
+                eyes[i].enabled = false;
+            }
+
+        }
     }
+
+
+    public void Bekle(bool _w)
+    {
+        _gameStop = _w;
+    }
+
 }

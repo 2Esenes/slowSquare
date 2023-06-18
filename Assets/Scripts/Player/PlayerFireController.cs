@@ -16,26 +16,49 @@ public class PlayerFireController : MonoBehaviour
     
     Vector2 mousePos;
 
+    //FireTime
+    public float fireTimer = 1;
+
+
+    public GameObject _reloadSlider;
+
+    [SerializeField]public Slider SliderRelo;
+
     private void Start()
     {
-       
+        SliderRelo = GetComponentInChildren<Slider>();
     }
 
     private void Update()
     {
+        if (SliderRelo == null) { print("Wtf"); }
+
+        fireTimer += Time.deltaTime;
+
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         Vector3 dir = mousePos - new Vector2(fireRotate.transform.position.x, fireRotate.transform.position.y);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (Input.GetMouseButtonDown(0)) Fire();
-    }
+        if (Input.GetMouseButtonDown(0) && fireTimer >= 1) { Fire(); fireTimer = 0; }
 
-    private void FixedUpdate()
-    {
+        SliderRelo.value = fireTimer;
+        if (fireTimer > 1)
+        {
+            _reloadSlider.SetActive(false);
+        }
+        if (fireTimer <= 1)
+        {
+            _reloadSlider.SetActive(true);
+        }
+
+        
+
         
     }
+
+   
 
     public void Fire()
     {
