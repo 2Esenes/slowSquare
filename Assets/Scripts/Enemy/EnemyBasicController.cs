@@ -40,6 +40,14 @@ public class EnemyBasicController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.tag == "PlatED") 
+        {
+            Die();
+        }
+    }
+
     public void Fire()
     {
         GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);

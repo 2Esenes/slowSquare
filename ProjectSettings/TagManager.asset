@@ -8,6 +8,7 @@ TagManager:
   - FxTemporaire
   - Enemy
   - Bullet
+  - PlatED
   layers:
   - Default
   - TransparentFX

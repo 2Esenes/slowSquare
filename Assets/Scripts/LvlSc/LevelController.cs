@@ -37,7 +37,12 @@ public class LevelController : MonoBehaviour
     private void Update()
     {
         ScoreText.text = _lVl.ToString();
-        if (_lVl == 2) { Lvl2.SetActive(true); }
+        if (_lVl == 2) 
+        {
+            if (Lvl2.activeSelf == true) return;
+            Lvl2.SetActive(true);
+            PlayerTransformLvl(1, 0);
+        }
         if (_lVl == 4) { Lvl3.SetActive(true); }
 
     }
