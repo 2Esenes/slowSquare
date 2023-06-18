@@ -16,9 +16,11 @@ public class EnemyBasicController : MonoBehaviour
 
     public GameObject _dieEffect;
 
+    LevelController _levelController;
+
     private void Start()
     {
-        
+        _levelController = FindObjectOfType<LevelController>();
     }
 
     private void Update()
@@ -45,6 +47,7 @@ public class EnemyBasicController : MonoBehaviour
     }
     public void Die()
     {
+        _levelController._lVl++;
         Instantiate(_dieEffect , transform.position , transform.rotation);
         Destroy(gameObject);
     }
