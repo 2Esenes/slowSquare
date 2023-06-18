@@ -1,5 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UIElements;
 
 public class PlayerFireController : MonoBehaviour
 {
@@ -17,16 +22,16 @@ public class PlayerFireController : MonoBehaviour
 
     public GameObject _reloadSlider;
 
-    
+    [SerializeField]public Slider SliderRelo;
 
     private void Start()
     {
-        
+        SliderRelo = GetComponentInChildren<Slider>();
     }
 
     private void Update()
     {
-        
+        if (SliderRelo == null) { print("Wtf"); }
 
         fireTimer += Time.deltaTime;
 
@@ -38,6 +43,7 @@ public class PlayerFireController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && fireTimer >= 1) { Fire(); fireTimer = 0; }
 
+        SliderRelo.value = fireTimer;
         if (fireTimer > 1)
         {
             _reloadSlider.SetActive(false);
@@ -47,7 +53,7 @@ public class PlayerFireController : MonoBehaviour
             _reloadSlider.SetActive(true);
         }
 
-        _reloadSlider.GetComponent<Slider>().value = fireTimer;
+        
 
         
     }
