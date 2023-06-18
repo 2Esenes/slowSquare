@@ -5280,6 +5280,7 @@ MonoBehaviour:
   jumpForce: 7
   isJumping: 1
   _gameStop: 0
+  _dieEffect: {fileID: 3559728910130620268, guid: 7ae375ca7db086f47846dc69cf1c8ba8, type: 3}
 --- !u!114 &180489294
 MonoBehaviour:
   m_ObjectHideFlags: 0

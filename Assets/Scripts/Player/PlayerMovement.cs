@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     public bool _gameStop = false;
+    public GameObject _dieEffect;
 
     void Start()
     {
@@ -31,6 +32,16 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
+        }
+
+        if (_gameStop == true)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            if (_gameStop == false)
+            {
+                rb.constraints = RigidbodyConstraints2D.None;
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
         }
 
         #region time
@@ -66,6 +77,19 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.tag == "Bullet")
+        {           
+            GetComponent<SpriteRenderer>().enabled = false;
+            var eyes = GetComponentsInChildren<SpriteRenderer>();
+            for (int i = 0; i < eyes.Length; i++)
+            {
+                eyes[i].enabled = false;
+            }
+            Instantiate(_dieEffect, transform.position, transform.rotation);
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -74,16 +98,6 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        if (collision.transform.tag == "Bullet")
-        {
-            GetComponent<SpriteRenderer>().enabled = false;
-            var eyes = GetComponentsInChildren<SpriteRenderer>();
-            for (int i = 0; i < eyes.Length; i++)
-            {
-                eyes[i].enabled = false;
-            }
-
-        }
     }
 
 

@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PlayerFireController : MonoBehaviour
 {
@@ -12,27 +10,17 @@ public class PlayerFireController : MonoBehaviour
     public Transform firePoint;
     public GameObject fireRotate;
     public float FireForce = 30;
-
     
     Vector2 mousePos;
 
     //FireTime
     public float fireTimer = 1;
 
-
     public GameObject _reloadSlider;
 
-    [SerializeField]public Slider SliderRelo;
-
-    private void Start()
-    {
-        SliderRelo = GetComponentInChildren<Slider>();
-    }
 
     private void Update()
     {
-        if (SliderRelo == null) { print("Wtf"); }
-
         fireTimer += Time.deltaTime;
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -43,7 +31,7 @@ public class PlayerFireController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && fireTimer >= 1) { Fire(); fireTimer = 0; }
 
-        SliderRelo.value = fireTimer;
+        _reloadSlider.GetComponent<Slider>().value = fireTimer;
         if (fireTimer > 1)
         {
             _reloadSlider.SetActive(false);
@@ -52,13 +40,8 @@ public class PlayerFireController : MonoBehaviour
         {
             _reloadSlider.SetActive(true);
         }
-
-        
-
-        
+    
     }
-
-   
 
     public void Fire()
     {
