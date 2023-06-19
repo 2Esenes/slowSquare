@@ -1,6 +1,8 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class EnemyBasicController : MonoBehaviour
 {
@@ -13,14 +15,23 @@ public class EnemyBasicController : MonoBehaviour
     Vector2 playerPos;
     public GameObject Player;
     public float shootTime = 3;
+    public float baseShootTime = 3;
 
     public GameObject _dieEffect;
 
     LevelController _levelController;
 
+    //farklý sc yazma diye bu var.ý ekliyom mal enes kendimede öle demem neyse
+    public bool iHaveMachineGun = false;
+
+
+    //cam Anim
+    public GameObject cam;
+
     private void Start()
     {
         _levelController = FindObjectOfType<LevelController>();
+        cam = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
     }
 
     private void Update()
@@ -31,12 +42,30 @@ public class EnemyBasicController : MonoBehaviour
         Vector3 dir = playerPos - new Vector2(fireRotate.transform.position.x, fireRotate.transform.position.y);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        if (shootTime <= 0)
+        
+        if (iHaveMachineGun == false)
         {
-            Fire();
-            shootTime = 3;
+            if (shootTime <= 0)
+            {
+                Fire();
+                shootTime = baseShootTime;
 
+            }
         }
+        else
+        {
+            //burayada boolu true yap machine gun olan þeyleri yaz
+            if (shootTime <= 0)
+            {
+                Fire();
+                Invoke("Fire", 0.2f);
+                Invoke("Fire", 0.4f);
+                
+                shootTime = baseShootTime;
+
+            }
+        }
+        
 
     }
 
@@ -57,6 +86,7 @@ public class EnemyBasicController : MonoBehaviour
     {
         _levelController._lVl++;
         Instantiate(_dieEffect , transform.position , transform.rotation);
+        cam.GetComponent<Animator>().SetTrigger("camShake");
         Destroy(gameObject);
     }
 }
