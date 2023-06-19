@@ -26,6 +26,7 @@ public class BulletCont : MonoBehaviour
         }
         if (collision.transform.tag == "Player")
         {
+            
             collision.GetComponent<PlayerMovement>().Bekle(true);
             Instantiate(_hitEffect, transform.position, transform.rotation);
             Destroy(gameObject);
