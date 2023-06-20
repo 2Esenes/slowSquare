@@ -5907,8 +5907,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 3798730123735323166, guid: 99d417787347b9e4d90b87c06b6d0a3b, type: 3}
+  GranadePrefab: {fileID: 2222740777194018963, guid: d6dbc929fffdf8641ad96ee897dae271, type: 3}
   firePoint: {fileID: 2146255016}
   fireRotate: {fileID: 1010173803}
+  ChosingGun: {fileID: 0}
   FireForce: 30
   fireTimer: 1
   _reloadSlider: {fileID: 1874037003}
