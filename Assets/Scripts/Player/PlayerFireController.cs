@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerFireController : MonoBehaviour
 {
     public GameObject BulletPrefab;
-    public GameObject GranadePrefab;
+    //public GameObject GranadePrefab;
     public Transform firePoint;
     public GameObject fireRotate;
     public GameObject ChosingGun;
@@ -55,16 +55,13 @@ public class PlayerFireController : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
     }
 
-
-    public void MyGun(GameObject guns, float bulletForce)
-    {
-        ChosingGun = guns;
-        FireForce = bulletForce;
-    }
-
-    public void NedenOlmuyon(GameObject _gun)
+    public void MYGun(GameObject _gun)
     {
         ChosingGun = _gun;
+    }
+    public void MYFireForce(float _force)
+    {
+        FireForce = _force;
     }
 
 

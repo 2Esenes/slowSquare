@@ -48,6 +48,13 @@ public class GranadeBulletCVontroller : MonoBehaviour
         
 
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Enemy")
+        {
+            explosionTime = 0;
+        }
+    }
 
 
 
