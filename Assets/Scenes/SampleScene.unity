@@ -5910,6 +5910,7 @@ MonoBehaviour:
   firePoint: {fileID: 2146255016}
   fireRotate: {fileID: 1010173803}
   ChosingGun: {fileID: 0}
+  _machineGun: 0
   FireForce: 30
   fireTimer: 1
   _reloadSlider: {fileID: 1874037003}
@@ -13009,8 +13010,20 @@ MonoBehaviour:
         m_MethodName: MYGun
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2222740777194018963, guid: d6dbc929fffdf8641ad96ee897dae271, type: 3}
+          m_ObjectArgument: {fileID: 2815163825652279335, guid: df35f57d02397b04088776f6dd7e08ea, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 180489294}
+        m_TargetAssemblyTypeName: PlayerFireController, Assembly-CSharp
+        m_MethodName: IsMachineGun
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15397,7 +15410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1657481552
 MonoBehaviour:
   m_ObjectHideFlags: 0

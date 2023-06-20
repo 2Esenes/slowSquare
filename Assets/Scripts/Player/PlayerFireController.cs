@@ -11,7 +11,7 @@ public class PlayerFireController : MonoBehaviour
     public Transform firePoint;
     public GameObject fireRotate;
     public GameObject ChosingGun;
-
+    public bool _machineGun = false;
     public float FireForce = 30;  //granade için 10 ,gun için 30 , machine gun içinde 30  
     
     Vector2 mousePos;
@@ -35,7 +35,21 @@ public class PlayerFireController : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (Input.GetMouseButtonDown(0) && fireTimer >= 1) { Fire(ChosingGun); fireTimer = 0; }
+        if (_machineGun == false)
+        {
+            if (Input.GetMouseButtonDown(0) && fireTimer >= 1) { Fire(ChosingGun); fireTimer = 0; }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0) && fireTimer >= 1)
+            {
+                Fire(ChosingGun);
+                Invoke("MachineFire", 0.1f);
+                Invoke("MachineFire", 0.2f);
+                fireTimer = 0;
+            }
+        }
+        print(_machineGun);
 
         _reloadSlider.GetComponent<Slider>().value = fireTimer;
         if (fireTimer > 1)
@@ -55,6 +69,12 @@ public class PlayerFireController : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
     }
 
+    private void MachineFire()
+    {
+        GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+    }
+
     public void MYGun(GameObject _gun)
     {
         ChosingGun = _gun;
@@ -63,6 +83,9 @@ public class PlayerFireController : MonoBehaviour
     {
         FireForce = _force;
     }
-
+    public void IsMachineGun(bool _machine)
+    {
+        _machineGun = _machine;
+    }
 
 }
