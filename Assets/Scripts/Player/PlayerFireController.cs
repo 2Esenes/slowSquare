@@ -49,7 +49,7 @@ public class PlayerFireController : MonoBehaviour
                 fireTimer = 0;
             }
         }
-        print(_machineGun);
+        
 
         _reloadSlider.GetComponent<Slider>().value = fireTimer;
         if (fireTimer > 1)

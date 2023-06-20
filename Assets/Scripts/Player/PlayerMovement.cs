@@ -80,8 +80,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Bullet")
-        {
-            
+        {  
             GetComponent<SpriteRenderer>().enabled = false;
             var eyes = GetComponentsInChildren<SpriteRenderer>();
             for (int i = 0; i < eyes.Length; i++)

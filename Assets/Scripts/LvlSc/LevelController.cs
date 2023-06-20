@@ -26,8 +26,11 @@ public class LevelController : MonoBehaviour
     public GameObject Lvl15;
     #endregion
 
+    public GameObject[] skillCards;
+    public GameObject[] skillCardsLeft;
+
     GameObject player;
-    private bool _nextLvl;
+    private int _nextLvl = 0;
 
     private void Start()
     {
@@ -36,14 +39,36 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
+        
         ScoreText.text = _lVl.ToString();
-        if (_lVl == 2) 
+        if(_lVl == 2 && _nextLvl == 0) { _nextLvl = 2; }
+        if (_lVl == 2 && _nextLvl == 2) 
         {
-            if (Lvl2.activeSelf == true) return;
-            Lvl2.SetActive(true);
-            PlayerTransformLvl(1, 0);
+            _nextLvl = 3;
+
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+            
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true); 
         }
-        if (_lVl == 4) { Lvl3.SetActive(true); }
+        if (_lVl == 4 && _nextLvl == 3) 
+        {
+            _nextLvl = 4;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q)) 
+        {
+            int randomInt = Random.Range(0, skillCards.Length);
+            for (int i = 0; i < skillCards.Length; i++)
+            {
+                skillCards[i].SetActive(false);
+            }
+            skillCards[randomInt].SetActive(true);
+        }
 
     }
     public void PlayerTransformLvl(float x , float y)
@@ -52,6 +77,30 @@ public class LevelController : MonoBehaviour
         player.transform.position = new Vector2(x, y);
     }
 
+    //her skill kartýnda çaðýr
+    public void StartNextLvl()
+    {
+        ScoreText.text = _lVl.ToString();
+        if (_lVl == 2)
+        {
+            Lvl2.SetActive(true);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 4) { Lvl3.SetActive(true); }
 
+    }
+    //her Skill Kartýnda çaðýr
+    public void CloseSkillCard()
+    {
+        for (int i = 0; i < skillCardsLeft.Length; i++)
+        {
+            skillCardsLeft[i].SetActive(false);
+        }
+
+        for (int i = 0; i < skillCards.Length; i++)
+        {
+            skillCards[i].SetActive(false);
+        }
+    }
 
 }
