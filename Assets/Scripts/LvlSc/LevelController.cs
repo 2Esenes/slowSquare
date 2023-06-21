@@ -54,7 +54,7 @@ public class LevelController : MonoBehaviour
             //print(randomInt2);
             skillCardsLeft[randomInt2].SetActive(true); 
         }
-        if (_lVl == 4 && _nextLvl == 3) // 2 den 3 e
+        if (_lVl == 3 && _nextLvl == 3) // 2 den 3 e
         {
             _nextLvl = 4;
             int randomInt = Random.Range(0, skillCards.Length);
@@ -65,16 +65,139 @@ public class LevelController : MonoBehaviour
             //print(randomInt2);
             skillCardsLeft[randomInt2].SetActive(true);
         }
-
-        if (Input.GetKeyDown(KeyCode.Q)) 
+        if (_lVl == 5 && _nextLvl == 4) 
         {
+            _nextLvl = 5;
             int randomInt = Random.Range(0, skillCards.Length);
-            for (int i = 0; i < skillCards.Length; i++)
-            {
-                skillCards[i].SetActive(false);
-            }
+            //print(randomInt);
             skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
         }
+        if (_lVl == 9 && _nextLvl == 5) 
+        {
+            _nextLvl = 6;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 11 && _nextLvl == 6)
+        {
+            _nextLvl = 7;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 13 && _nextLvl == 7)
+        {
+            _nextLvl = 8;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 16 && _nextLvl == 8)
+        {
+            _nextLvl = 9;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 18 && _nextLvl == 9)
+        {
+            _nextLvl = 10;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 20 && _nextLvl == 10)
+        {
+            _nextLvl = 11;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 24 && _nextLvl == 11)
+        {
+            _nextLvl = 12;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 27 && _nextLvl == 12)
+        {
+            _nextLvl = 13;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 33 && _nextLvl == 13)
+        {
+            _nextLvl = 14;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 39 && _nextLvl == 14)
+        {
+            _nextLvl = 15;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+        if (_lVl == 45 && _nextLvl == 15)
+        {
+            _nextLvl = 16;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
+
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
+        }
+
 
     }
     public void PlayerTransformLvl(float x , float y)
@@ -93,10 +216,83 @@ public class LevelController : MonoBehaviour
             Lvl1.SetActive(false);
             PlayerTransformLvl(1, 0);
         }
-        if (_lVl == 4) // 2 den 3 e
+        if (_lVl == 3) // 2 den 3 e
         {
             Lvl3.SetActive(true);
             Lvl2.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 5) // 2 den 3 e
+        {
+            Lvl4.SetActive(true);
+            Lvl3.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 9) // 2 den 3 e
+        {
+            Lvl5.SetActive(true);
+            Lvl4.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 11) // 2 den 3 e
+        {
+            Lvl6.SetActive(true);
+            Lvl5.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 13) // 2 den 3 e
+        {
+            Lvl7.SetActive(true);
+            Lvl6.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 16) // 2 den 3 e
+        {
+            Lvl8.SetActive(true);
+            Lvl7.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 18) // 2 den 3 e
+        {
+            Lvl9.SetActive(true);
+            Lvl8.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 20) // 2 den 3 e
+        {
+            Lvl10.SetActive(true);
+            Lvl9.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 24) // 2 den 3 e
+        {
+            Lvl11.SetActive(true);
+            Lvl10.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 27) // 2 den 3 e
+        {
+            Lvl12.SetActive(true);
+            Lvl11.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 33) // 2 den 3 e
+        {
+            Lvl13.SetActive(true);
+            Lvl12.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 39) // 2 den 3 e
+        {
+            Lvl14.SetActive(true);
+            Lvl13.SetActive(false);
+            PlayerTransformLvl(1, 0);
+        }
+        if (_lVl == 45) // 2 den 3 
+        {
+            Lvl15.SetActive(true);
+            Lvl14.SetActive(false);
+            PlayerTransformLvl(1, 0);
         }
 
     }

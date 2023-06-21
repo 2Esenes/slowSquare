@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerFireController : MonoBehaviour
 {
@@ -42,12 +43,17 @@ public class PlayerFireController : MonoBehaviour
 
         if (_machineGun == false)
         {
-            if (Input.GetMouseButtonDown(0) && fireTimer >= 1) { Fire(ChosingGun); fireTimer = 0; }
+            if (Input.GetMouseButtonDown(0) && fireTimer >= 1) 
+            {
+                if (EventSystem.current.IsPointerOverGameObject()) return;
+                Fire(ChosingGun); fireTimer = 0; 
+            }
         }
         else
         {
             if (Input.GetMouseButtonDown(0) && fireTimer >= 1)
             {
+                if (EventSystem.current.IsPointerOverGameObject()) return;
                 Fire(ChosingGun);
                 Invoke("MachineFire", 0.1f);
                 Invoke("MachineFire", 0.2f);
