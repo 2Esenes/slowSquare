@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     public bool _gameStop = false;
     public GameObject _dieEffect;
 
+    //try Again Canvas
+    public GameObject tryAgainButton;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,6 +25,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (_gameStop == true)
+        {
+            tryAgainButton.SetActive(true);
+            return;
+        }
         float moveX = Input.GetAxis("Horizontal");
 
         // Yatay hareket

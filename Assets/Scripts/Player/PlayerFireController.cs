@@ -21,12 +21,17 @@ public class PlayerFireController : MonoBehaviour
 
     public GameObject _reloadSlider;
 
+    //GameStop için burasý
+    private PlayerMovement _playerMovement;
+
     private void Start()
     {
         ChosingGun = BulletPrefab;
+        _playerMovement = GetComponent<PlayerMovement>();
     }
     private void Update()
     {
+        if (_playerMovement._gameStop == true) return;
         fireTimer += Time.deltaTime;
 
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
