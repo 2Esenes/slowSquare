@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     //try Again Canvas
     public GameObject tryAgainButton;
+    
 
     void Start()
     {
@@ -42,14 +44,17 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.W) && !isJumping)
+        {
+            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            isJumping = true;
+        }
+
         if (_gameStop == true)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            if (_gameStop == false)
-            {
-                rb.constraints = RigidbodyConstraints2D.None;
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            }
+            tryAgainButton.SetActive(true);
+           
         }
 
         #region time
@@ -108,7 +113,21 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-
+    public void HomeAndAgainButton()
+    {
+        SceneManager.LoadScene(0);
+        //_gameStop = false;
+        //rb.constraints = RigidbodyConstraints2D.None;
+        //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        //tryAgainButton.SetActive(false);
+        //homeButton.SetActive(false);
+        //GetComponent<SpriteRenderer>().enabled = true;
+        //var eyes = GetComponentsInChildren<SpriteRenderer>();
+        //for (int i = 0; i < eyes.Length; i++)
+        //{
+        //    eyes[i].enabled = true;
+        //}
+    }
     public void Bekle(bool _w)
     {
         _gameStop = _w;

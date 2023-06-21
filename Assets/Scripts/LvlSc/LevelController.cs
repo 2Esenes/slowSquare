@@ -30,7 +30,7 @@ public class LevelController : MonoBehaviour
     public GameObject[] skillCardsLeft;
 
     GameObject player;
-    private int _nextLvl = 0;
+    public int _nextLvl = 0;
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class LevelController : MonoBehaviour
         
         ScoreText.text = _lVl.ToString();
         if(_lVl == 2 && _nextLvl == 0) { _nextLvl = 2; }
-        if (_lVl == 2 && _nextLvl == 2) 
+        if (_lVl == 2 && _nextLvl == 2) // 1 den 2 ye
         {
             _nextLvl = 3;
 
@@ -54,10 +54,16 @@ public class LevelController : MonoBehaviour
             //print(randomInt2);
             skillCardsLeft[randomInt2].SetActive(true); 
         }
-        if (_lVl == 4 && _nextLvl == 3) 
+        if (_lVl == 4 && _nextLvl == 3) // 2 den 3 e
         {
             _nextLvl = 4;
+            int randomInt = Random.Range(0, skillCards.Length);
+            //print(randomInt);
+            skillCards[randomInt].SetActive(true);
 
+            int randomInt2 = Random.Range(0, skillCardsLeft.Length);
+            //print(randomInt2);
+            skillCardsLeft[randomInt2].SetActive(true);
         }
 
         if (Input.GetKeyDown(KeyCode.Q)) 
@@ -81,12 +87,17 @@ public class LevelController : MonoBehaviour
     public void StartNextLvl()
     {
         ScoreText.text = _lVl.ToString();
-        if (_lVl == 2)
+        if (_lVl == 2) // 1 den 2 ye
         {
             Lvl2.SetActive(true);
+            Lvl1.SetActive(false);
             PlayerTransformLvl(1, 0);
         }
-        if (_lVl == 4) { Lvl3.SetActive(true); }
+        if (_lVl == 4) // 2 den 3 e
+        {
+            Lvl3.SetActive(true);
+            Lvl2.SetActive(false);
+        }
 
     }
     //her Skill Kartýnda çaðýr
@@ -102,5 +113,7 @@ public class LevelController : MonoBehaviour
             skillCards[i].SetActive(false);
         }
     }
+
+    
 
 }
