@@ -11,10 +11,14 @@ public class GranadeBulletCVontroller : MonoBehaviour
     public GameObject _explosionPrefab;
     private float explosionTime;
 
+    //ses
+    public GameObject ExplosionVoice;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         explosionTime = 3;
+        ExplosionVoice = GameObject.Find("ExplosionSes");
     }
 
     private void Update()
@@ -30,18 +34,21 @@ public class GranadeBulletCVontroller : MonoBehaviour
     {
         if (collision.transform.tag == "Enemy")
         {
+            ExplosionVoice.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab , transform.position, transform.rotation);
             collision.GetComponent<EnemyBasicController>().Die();
             Destroy(gameObject);
         }
         if (collision.transform.tag == "Player")
         {
+            ExplosionVoice.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab, transform.position, transform.rotation);
             collision.GetComponent<PlayerMovement>().Bekle(true);
             Destroy(gameObject);
         }
         if (collision.transform.tag == "Ground")
         {
+            ExplosionVoice.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab, transform.position, transform.rotation);
             Destroy(gameObject);
         }

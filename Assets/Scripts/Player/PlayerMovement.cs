@@ -17,7 +17,11 @@ public class PlayerMovement : MonoBehaviour
 
     //try Again Canvas
     public GameObject tryAgainButton;
-    
+
+    //Ses
+    public AudioSource JumpSounds;
+    public AudioSource DeathSounds;
+
 
     void Start()
     {
@@ -42,12 +46,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
+            JumpSounds.Play();
         }
 
         if (Input.GetKeyDown(KeyCode.W) && !isJumping)
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
+            JumpSounds.Play();
         }
 
         if (_gameStop == true)
@@ -93,7 +99,8 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Bullet")
-        {  
+        {
+            DeathSounds.Play();
             GetComponent<SpriteRenderer>().enabled = false;
             var eyes = GetComponentsInChildren<SpriteRenderer>();
             for (int i = 0; i < eyes.Length; i++)

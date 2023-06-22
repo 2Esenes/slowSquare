@@ -28,10 +28,16 @@ public class EnemyBasicController : MonoBehaviour
     //cam Anim
     public GameObject cam;
 
+    //ses
+    public AudioSource BulletFire;
+    public AudioSource DieVoice;
+
     private void Start()
     {
         _levelController = FindObjectOfType<LevelController>();
         cam = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
+        //BulletFire = GameObject.Find("PlayerFire");
+        //DieVoice = GameObject.Find("PlayerDeath");
     }
 
     private void Update()
@@ -57,6 +63,7 @@ public class EnemyBasicController : MonoBehaviour
             //burayada boolu true yap machine gun olan þeyleri yaz
             if (shootTime <= 0)
             {
+                
                 Fire();
                 Invoke("Fire", 0.2f);
                 Invoke("Fire", 0.4f);
@@ -81,12 +88,15 @@ public class EnemyBasicController : MonoBehaviour
     {
         GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+        BulletFire.Play();
+        
     }
     public void Die()
-    {
+    {  
         _levelController._lVl++;
         Instantiate(_dieEffect , transform.position , transform.rotation);
         cam.GetComponent<Animator>().SetTrigger("camShake");
+        DieVoice.Play();
         Destroy(gameObject);
     }
 }

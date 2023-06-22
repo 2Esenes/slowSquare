@@ -25,6 +25,9 @@ public class PlayerFireController : MonoBehaviour
     //GameStop için burasý
     private PlayerMovement _playerMovement;
 
+    //ses
+    public AudioSource FireGun;
+
     private void Start()
     {
         ChosingGun = BulletPrefab;
@@ -78,12 +81,14 @@ public class PlayerFireController : MonoBehaviour
     {
         GameObject bullet = Instantiate(gun, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+        FireGun.Play();
     }
 
     private void MachineFire()
     {
         GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+        FireGun.Play();
     }
 
     public void MYGun(GameObject _gun)
