@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private static TimeController _instance;
+
+    public static TimeController Instance => _instance;
+    public void Init()
     {
-        
+        if (_instance != null && _instance != this)
+            Destroy(gameObject);
+        else
+            _instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private float _currentTime = 1f;
+    public float TimeScale => _currentTime;
 
+    public void ChangeTimeScale(float newTimeScale)
+    {
+        _currentTime = newTimeScale;
+        Time.timeScale = _currentTime;
     }
 }

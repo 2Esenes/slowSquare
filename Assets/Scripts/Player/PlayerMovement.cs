@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Time.timeScale = 0.2f;
+        TimeController.Instance.ChangeTimeScale(0.2f);
     }
 
     void Update()
@@ -66,31 +66,31 @@ public class PlayerMovement : MonoBehaviour
         #region time
         if (isJumping == true)
         {
-            Time.timeScale = 1f;
+            TimeController.Instance.ChangeTimeScale(1f);
         }
         else
         {
-            Time.timeScale = 0.2f;
+            TimeController.Instance.ChangeTimeScale(0.2f);
         }
         if (Input.GetMouseButton(0))
         {
-            Time.timeScale = 1f;
+            TimeController.Instance.ChangeTimeScale(1f);
             if (Input.GetMouseButtonUp(0))
             {
-                Time.timeScale = 0.2f;
+                TimeController.Instance.ChangeTimeScale(0.2f);
             }
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            Time.timeScale = 1f;
-            if (Input.GetKeyUp(KeyCode.A)) { Time.timeScale = 0.2f; }
+            TimeController.Instance.ChangeTimeScale(1f);
+            if (Input.GetKeyUp(KeyCode.A)) { TimeController.Instance.ChangeTimeScale(0.2f); }
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            Time.timeScale = 1f;
-            if (Input.GetKeyUp(KeyCode.D)) { Time.timeScale = 0.2f; }
+            TimeController.Instance.ChangeTimeScale(1f);
+            if (Input.GetKeyUp(KeyCode.D)) { TimeController.Instance.ChangeTimeScale(0.2f); }
         }
         #endregion
 
