@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class IronSourceInitilizer
+﻿public class IronSourceInitilizer
 {
 #if UNITY_IOS || UNITY_ANDROID
     [RuntimeInitializeOnLoadMethod]

@@ -1,5 +1,3 @@
-using System;
-
 public class IronSourcePlacement
 {
 	private string rewardName;

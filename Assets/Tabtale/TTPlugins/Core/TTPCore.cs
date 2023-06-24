@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using UnityEngine.Scripting;
 
-namespace Tabtale.TTPlugins {
+namespace Tabtale.TTPlugins
+{
 
     /// <summary>
     /// This class provides initialization of all plugins

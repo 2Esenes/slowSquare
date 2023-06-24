@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 
 #if EN_GDAD
 [Serializable]

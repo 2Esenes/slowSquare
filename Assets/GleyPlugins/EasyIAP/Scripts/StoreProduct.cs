@@ -6,7 +6,6 @@
 using UnityEngine.Purchasing;
 #endif
 
-using UnityEngine;
 
 public enum ProductType
 {

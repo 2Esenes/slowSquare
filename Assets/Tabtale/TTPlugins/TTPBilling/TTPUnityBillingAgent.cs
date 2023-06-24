@@ -2,11 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using System.Text;
-using System.IO.Compression;
 using Tabtale.TTPlugins.UnityIAPWrapper;
-using Tabtale.TTPlugins;
-using UIAP;
 
 #if UIAP_INSTALLED && TTP_BILLING
 using TTPIUnityPurchasing = UnityEngine.Purchasing.UnityPurchasing;

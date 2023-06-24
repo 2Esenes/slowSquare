@@ -1,12 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
     private static TimeController _instance;
-
     public static TimeController Instance => _instance;
+
+    private float _currentTime = 1f;
+    public float TimeScale => _currentTime;
+
+    DateTime _lastestShowedTime;
+    public DateTime LastestShowedTime {
+        get
+        {
+            Debug.Log("Lastest Showed Time: " + _lastestShowedTime);
+            return _lastestShowedTime;
+        }
+        set
+        {
+            _lastestShowedTime = value;
+        } 
+    }
+    public bool ShowingFirstTime { get; set; }
+
     public void Init()
     {
         if (_instance != null && _instance != this)
@@ -15,8 +31,6 @@ public class TimeController : MonoBehaviour
             _instance = this;
     }
 
-    private float _currentTime = 1f;
-    public float TimeScale => _currentTime;
 
     public void ChangeTimeScale(float newTimeScale)
     {

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 #if CRAZY_LABS
 using Tabtale.TTPlugins;
@@ -32,12 +30,43 @@ public class AdManager : MonoBehaviour
     public IRewardedAdManager RewardedAdManager => _rewardedAdManager;
 
     public Action OnBeforeLoadingAds;
+
+    public float _interstatialFrequency;
+
+    Action _onInterstatialClosed;
+
     private void Awake()
     {
         //Init();
     }
 
- 
+    public void ShowInterstatialByTime(Action onClosed)
+    {
+        var time = DateTime.Now;
+        var check = !TimeController.Instance.ShowingFirstTime ? true :
+            (time - TimeController.Instance.LastestShowedTime).TotalSeconds > _interstatialFrequency;
+
+        _onInterstatialClosed = onClosed;
+
+        if (!check)
+        {
+            onClosed.Invoke();
+            _onInterstatialClosed = null;
+            return;
+        }
+
+        _interstatialAdManager.RegisterOnAdClosedEvent(OnInterstatialClosed);
+
+        TimeController.Instance.ShowingFirstTime = true;
+        TimeController.Instance.LastestShowedTime = time;
+        _interstatialAdManager.ShowAd();
+    }
+
+    private void OnInterstatialClosed(IronSourceAdInfo info)
+    {
+        _onInterstatialClosed.Invoke();
+        _interstatialAdManager.UnRegisterOnAdClosedEvent(OnInterstatialClosed);
+    }
 
     private void OnDisable()
     {
@@ -59,9 +88,9 @@ public class AdManager : MonoBehaviour
         _bannerAdManager = new NoAdBannerAdManager();
     }
 
-    public void  Init()
+    public void Init()
     {
-        if(_inAppPurchase != null)
+        if (_inAppPurchase != null)
         {
             _inAppPurchase.RemoveAds += RemoveAdsByNoAdPurchase;
         }
@@ -83,7 +112,7 @@ public class AdManager : MonoBehaviour
 
         CreateIronSourceAdManagers();
 
-        if(_isIronSourceInitialized)
+        if (_isIronSourceInitialized)
         {
             OnBeforeLoadingAds?.Invoke();
             _interstatialAdManager.RegisterIronSourceInterstatialEvents();
@@ -97,7 +126,7 @@ public class AdManager : MonoBehaviour
                 RemoveAdsByNoAdPurchase();
             }
 
-          
+
             LoadAds();
         }
 #endif
@@ -149,7 +178,7 @@ public class AdManager : MonoBehaviour
     }
 
 
-#region MOBILE
+    #region MOBILE
     private void LoadAds()
     {
 
@@ -203,7 +232,7 @@ public class AdManager : MonoBehaviour
 
         var adRemove = PlayerPrefs.GetInt("NoAds");
 
-        if(adRemove == 1)
+        if (adRemove == 1)
         {
             RemoveAdsByNoAdPurchase();
         }
@@ -244,5 +273,5 @@ public class AdManager : MonoBehaviour
         IronSource.Agent.setAdaptersDebug(true);
     }
 
-#endregion
+    #endregion
 }

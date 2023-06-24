@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
-
+﻿
 #if LAGGED
 public class GameManager : MonoBehaviour
 {

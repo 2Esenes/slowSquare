@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Tabtale.TTPlugins.UnityIAPWrapper
+﻿namespace Tabtale.TTPlugins.UnityIAPWrapper
 {
     public interface TTPIPurchaseEventArgs
     {

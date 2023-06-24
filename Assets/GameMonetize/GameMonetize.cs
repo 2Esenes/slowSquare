@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
-#if GAME_MONOTIZE
+﻿#if GAME_MONOTIZE
 public class GameMonetize : MonoBehaviour
 {
     public static GameMonetize Instance;

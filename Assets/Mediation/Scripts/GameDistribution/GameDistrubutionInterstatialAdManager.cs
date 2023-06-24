@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 #if EN_GDAD
 public class GameDistrubutionInterstatialAdManager : IInterstatialAdManager

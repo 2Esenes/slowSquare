@@ -1,8 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Tabtale.TTPlugins.UnityIAPWrapper;
-using UnityEngine;
-using UIAP;
 #if UIAP_INSTALLED
 using  SubscriptionInfo = UnityEngine.Purchasing.SubscriptionInfo;
 #endif

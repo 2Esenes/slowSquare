@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using System.Runtime.InteropServices;
 using System.Linq;
 using System.IO;
 
 
 #if UNITY_EDITOR
-using UnityEditor;
 #endif
-using System.Threading;
 #pragma warning disable 0162
 
 namespace TTPluginsAssetBundles
 {
-	public class TTAssetBundleManager : MonoBehaviour
+    public class TTAssetBundleManager : MonoBehaviour
 	{
 
 		private bool m_AssetBundleManagerInitialized = false;

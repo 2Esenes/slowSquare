@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-#if UIAP_INSTALLED
+﻿#if UIAP_INSTALLED
 using TTPIStoreController = UnityEngine.Purchasing.IStoreController;
 #endif
 namespace Tabtale.TTPlugins.UnityIAPWrapper

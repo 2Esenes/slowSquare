@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
-using System.Text.RegularExpressions;
-#if EN_GDAD
+﻿#if EN_GDAD
 public class GameDistribution : MonoBehaviour
 {
     public static GameDistribution Instance;

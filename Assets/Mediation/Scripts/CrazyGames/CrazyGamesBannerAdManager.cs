@@ -1,10 +1,7 @@
 //using CrazyGames;
- 
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 #if CRAZY_GSDK
 public class CrazyGamesBannerAdManager : IBannerAdManager

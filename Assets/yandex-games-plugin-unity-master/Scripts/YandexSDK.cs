@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
-
+﻿
 #if YANDEX_GAMES
 
 public class YandexSDK : MonoBehaviour {

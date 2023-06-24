@@ -1,6 +1,3 @@
-
-using System;
-
 public class IronSourceError
 {
 	private string description;
