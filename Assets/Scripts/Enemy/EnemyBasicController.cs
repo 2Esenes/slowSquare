@@ -32,16 +32,22 @@ public class EnemyBasicController : MonoBehaviour
     public AudioSource BulletFire;
     public AudioSource DieVoice;
 
+    //ates et flash yak
+    private ParticleSystem muzzleFlasf;
+
+   
     private void Start()
     {
         _levelController = FindObjectOfType<LevelController>();
         cam = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
+        
         //BulletFire = GameObject.Find("PlayerFire");
         //DieVoice = GameObject.Find("PlayerDeath");
     }
 
     private void Update()
     {
+        if (muzzleFlasf == null) { muzzleFlasf = GetComponentInChildren<ParticleSystem>(); }
         shootTime -= Time.deltaTime;
         Player = FindObjectOfType<PlayerMovement>().gameObject;
         playerPos = Player.transform.position;
@@ -89,6 +95,7 @@ public class EnemyBasicController : MonoBehaviour
         GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
         BulletFire.Play();
+        muzzleFlasf.Play();
         
     }
     public void Die()
