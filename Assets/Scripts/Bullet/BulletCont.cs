@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class BulletCont : MonoBehaviour
@@ -16,6 +17,7 @@ public class BulletCont : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        bool canManipulateMaterial = false;
         if (collision.transform.tag == "Enemy")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);
@@ -24,8 +26,9 @@ public class BulletCont : MonoBehaviour
             Rigidbody2D enemRb = collision.GetComponent<Rigidbody2D>();
             enemRb.AddForce(knockDirection.normalized * knockBackStrength, ForceMode2D.Impulse);
             collision.GetComponent<EnemyBasicController>().Die();
-            Destroy(gameObject);
-            
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+            canManipulateMaterial = true;
         }
         if (collision.transform.tag == "Player")
         {
@@ -39,8 +42,15 @@ public class BulletCont : MonoBehaviour
         {
             BulletHitSounds.GetComponent<AudioSource>().Play();
             Instantiate(_hitEffect, transform.position, transform.rotation);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+
+            canManipulateMaterial = true;
+        }
+
+        if(canManipulateMaterial)
+        {
+            ShockWaveController.Instance.SetPosition(transform.position);
         }
     }
-
 }

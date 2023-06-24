@@ -28,6 +28,7 @@ public class MainCompositionRoot : MonoBehaviour
         _serviceReferences.AdManager.Init();
         _serviceReferences.TimeController.Init();
         _serviceReferences.DoNotDestory.Init();
+        _serviceReferences.ShockWaveController.Init();
 
         // === Other References Init ===
         for (int i = 0; i < _otherReferences.GreenPlayerFirstLvls.Length; i++)
@@ -44,6 +45,7 @@ public class MainCompositionRoot : MonoBehaviour
         [field: SerializeField] public AdManager AdManager { get; private set; }
         [field: SerializeField] public TimeController TimeController { get; private set; }
         [field: SerializeField] public DoNotDestory DoNotDestory { get; private set; }
+        [field: SerializeField] public ShockWaveController ShockWaveController { get; private set; }
     }
 
     [System.Serializable]
