@@ -27,6 +27,7 @@ public class PlayerFireController : MonoBehaviour
 
     //ses
     public AudioSource FireGun;
+    public ParticleSystem muzzleFlash;
 
     private void Start()
     {
@@ -81,6 +82,7 @@ public class PlayerFireController : MonoBehaviour
     {
         GameObject bullet = Instantiate(gun, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+        muzzleFlash.Play();
         FireGun.Play();
     }
 
@@ -88,6 +90,8 @@ public class PlayerFireController : MonoBehaviour
     {
         GameObject bullet = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+        
+        muzzleFlash.Play();
         FireGun.Play();
     }
 
