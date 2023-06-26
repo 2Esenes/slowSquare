@@ -29,12 +29,13 @@ public class GranadeBulletCVontroller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        bool canManipulateMaterial = false;
         if (collision.transform.tag == "Enemy")
         {
             ExplosionVoice.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab , transform.position, transform.rotation);
             collision.GetComponent<EnemyBasicController>().Die();
-            Destroy(gameObject);
+            canManipulateMaterial = true;
         }
         if (collision.transform.tag == "Player")
         {
@@ -47,10 +48,14 @@ public class GranadeBulletCVontroller : MonoBehaviour
         {
             ExplosionVoice.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab, transform.position, transform.rotation);
+            canManipulateMaterial = true;
+        }
+
+        if (canManipulateMaterial)
+        {
+            ShockWaveController.Instance.SetPosition(transform.position);
             Destroy(gameObject);
         }
-        
-
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

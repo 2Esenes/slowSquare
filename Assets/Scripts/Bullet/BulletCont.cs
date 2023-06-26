@@ -26,8 +26,6 @@ public class BulletCont : MonoBehaviour
             Rigidbody2D enemRb = collision.GetComponent<Rigidbody2D>();
             enemRb.AddForce(knockDirection.normalized * knockBackStrength, ForceMode2D.Impulse);
             collision.GetComponent<EnemyBasicController>().Die();
-            //Destroy(gameObject);
-            gameObject.SetActive(false);
             canManipulateMaterial = true;
         }
         if (collision.transform.tag == "Player")
@@ -42,8 +40,6 @@ public class BulletCont : MonoBehaviour
         {
             BulletHitSounds.GetComponent<AudioSource>().Play();
             Instantiate(_hitEffect, transform.position, transform.rotation);
-            //Destroy(gameObject);
-            gameObject.SetActive(false);
 
             canManipulateMaterial = true;
         }
@@ -51,6 +47,7 @@ public class BulletCont : MonoBehaviour
         if(canManipulateMaterial)
         {
             ShockWaveController.Instance.SetPosition(transform.position);
+            Destroy(gameObject);
         }
     }
 }

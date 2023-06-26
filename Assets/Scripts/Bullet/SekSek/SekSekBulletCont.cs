@@ -25,18 +25,25 @@ public class SekSekBulletCont : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        bool canManipulateMaterial = false;
         if (collision.transform.tag == "Enemy")
         {
             BulletHitSounds.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab, transform.position, transform.rotation);
             collision.GetComponent<EnemyBasicController>().Die();
-            Destroy(gameObject);
+            canManipulateMaterial = true;
         }
         
         if (collision.transform.tag == "Ground")
         {
             BulletHitSounds.GetComponent<AudioSource>().Play();
             Instantiate(_explosionPrefab, transform.position, transform.rotation);
+        }
+
+        if(canManipulateMaterial)
+        {
+            ShockWaveController.Instance.SetPosition(transform.position);
+            Destroy(gameObject);
         }
     }
 }

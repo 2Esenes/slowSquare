@@ -11,14 +11,21 @@ public class PocionGunController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        bool canManipulateMaterial = false;
         if (collision.transform.tag == "Ground") 
         {
             Instantiate(_hitEffect , transform.position, transform.rotation);
-            Destroy(gameObject);
+            canManipulateMaterial = true;
         }
         if (collision.transform.tag == "Enemy")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);
+            canManipulateMaterial = true;
+        }
+
+        if(canManipulateMaterial)
+        {
+            ShockWaveController.Instance.SetPosition(transform.position);
             Destroy(gameObject);
         }
     }

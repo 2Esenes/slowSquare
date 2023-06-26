@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainCompositionRoot : MonoBehaviour
@@ -35,7 +36,6 @@ public class MainCompositionRoot : MonoBehaviour
         {
             _otherReferences.GreenPlayerFirstLvls[i].Init(_serviceReferences.AdManager);
         }
-
         // =============================
     }
 
