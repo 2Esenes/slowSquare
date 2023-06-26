@@ -169,8 +169,8 @@ MonoBehaviour:
   _lineRenderer: {fileID: 5977591916175682980}
   _bulletHitSound: {fileID: 0}
   _hitFX: {fileID: 1245727020996176066, guid: 86c0613be20279848bf51cd133f8d595, type: 3}
-  _duration: 0.15
-  _delay: 0.05
+  _duration: 0.1
+  _delay: 0.75
 --- !u!1 &8759218216941271558
 GameObject:
   m_ObjectHideFlags: 0
