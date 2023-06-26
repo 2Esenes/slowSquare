@@ -8,6 +8,7 @@ public class BulletCont : MonoBehaviour
 
     //ses
     public GameObject BulletHitSounds;
+    [SerializeField] TrailRenderer _trailRenderer;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class BulletCont : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         bool canManipulateMaterial = false;
+        _trailRenderer.transform.SetParent(null);
         if (collision.transform.tag == "Enemy")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);
