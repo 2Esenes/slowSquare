@@ -127,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
         if(raycastHit.collider == null)
         {
             _onAir = true;
-            Debug.Log("OnAir");
         }
         else if(raycastHit.collider != null && _onAir)
         {
@@ -144,7 +143,6 @@ public class PlayerMovement : MonoBehaviour
                     .SetUpdate(true);
             }
             _onAir = false;
-            Debug.Log("HitGround");
         }
     }
 
