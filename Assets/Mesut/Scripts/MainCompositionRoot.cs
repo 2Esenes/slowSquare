@@ -22,11 +22,6 @@ public class MainCompositionRoot : MonoBehaviour
             Debug.Log((DateTime.Now - _startime).TotalMinutes);
             Debug.Log((DateTime.Now - _startime).TotalSeconds);
         }
-
-        if(Input.GetKeyDown(KeyCode.None))
-        {
-            Debug.Log("Any");
-        }
     }
 
     private void Init()

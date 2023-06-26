@@ -1,5 +1,7 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit2D raycastHit;
 
     [SerializeField] PlayerDeathAnimation _playerDeathAnimation;
+    [SerializeField] PunchSettings _jumpPunchSettings;
+    [SerializeField] PunchSettings _landingPunchSettings;
+    [SerializeField] LayerMask _groundMask;
 
     public bool _gameStop = false;
     public GameObject _dieEffect;
@@ -28,9 +33,12 @@ public class PlayerMovement : MonoBehaviour
         TimeController.Instance.ChangeTimeScale(0.2f);
     }
 
+    Tween _jumpPunchTween;
+    Tween _landingPunchTween;
+
     void Update()
     {
-        if (_isDeath && Input.anyKey)
+        if (_isDeath && Input.anyKeyDown)
         {
             HomeAndAgainButton();
         }
@@ -58,6 +66,17 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
+
+
+            if (_landingPunchTween!= null)
+            {
+                _landingPunchTween.Kill();
+                _landingPunchTween = null;
+            }
+
+            transform.localScale = Vector3.one;
+            _jumpPunchTween = transform.DOPunchScale(_jumpPunchSettings.Punch, _jumpPunchSettings.Duration, _jumpPunchSettings.Vibrato, _jumpPunchSettings.Elasticity)
+                .SetUpdate(true);
         }
 
         if (_gameStop == true)
@@ -100,6 +119,35 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    bool _onAir;
+    [SerializeField] float _rayDistance;
+    private void FixedUpdate()
+    {
+        var raycastHit = Physics2D.Raycast(transform.position, transform.up * -1, _rayDistance, _groundMask);
+        if(raycastHit.collider == null)
+        {
+            _onAir = true;
+            Debug.Log("OnAir");
+        }
+        else if(raycastHit.collider != null && _onAir)
+        {
+            if(_onAir)
+            {
+                if(_jumpPunchTween != null)
+                {
+                    _jumpPunchTween.Kill();
+                    _jumpPunchTween = null;
+                }
+
+                transform.localScale = Vector3.one;
+                _landingPunchTween = transform.DOPunchScale(_landingPunchSettings.Punch, _landingPunchSettings.Duration, _landingPunchSettings.Vibrato, _landingPunchSettings.Elasticity)
+                    .SetUpdate(true);
+            }
+            _onAir = false;
+            Debug.Log("HitGround");
+        }
+    }
+
     bool _isDeath;
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -124,7 +172,6 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
         }
-
     }
 
     public void HomeAndAgainButton()
@@ -147,4 +194,12 @@ public class PlayerMovement : MonoBehaviour
         _gameStop = _w;
     }
 
+    [System.Serializable]
+    public sealed class PunchSettings
+    {
+        [field: SerializeField] public Vector3 Punch { get; private set; }
+        [field: SerializeField] public float Duration { get; private set; }
+        [field: SerializeField] public int Vibrato { get; private set; } = 10;
+        [field: SerializeField] public float Elasticity { get; private set; } = 1f;
+    }
 }
