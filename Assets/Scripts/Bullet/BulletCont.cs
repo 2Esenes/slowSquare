@@ -9,6 +9,7 @@ public class BulletCont : MonoBehaviour
     //ses
     public GameObject BulletHitSounds;
     [SerializeField] TrailRenderer _trailRenderer;
+    [SerializeField] bool _setTrailRendererParent;
 
     private void Start()
     {
@@ -19,7 +20,7 @@ public class BulletCont : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         bool canManipulateMaterial = false;
-        _trailRenderer.transform.SetParent(null);
+        bool canSEtRenderer = false;
         if (collision.transform.tag == "Enemy")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);
@@ -29,13 +30,14 @@ public class BulletCont : MonoBehaviour
             enemRb.AddForce(knockDirection.normalized * knockBackStrength, ForceMode2D.Impulse);
             collision.GetComponent<EnemyBasicController>().Die();
             canManipulateMaterial = true;
+            canSEtRenderer = true;
         }
         if (collision.transform.tag == "Player")
         {
             BulletHitSounds.GetComponent<AudioSource>().Play();
             collision.GetComponent<PlayerMovement>().Bekle(true);
             Instantiate(_hitEffect, transform.position, transform.rotation);
-            Destroy(gameObject);
+            canSEtRenderer = true;
         }
 
         if (collision.transform.tag == "Ground")
@@ -44,12 +46,22 @@ public class BulletCont : MonoBehaviour
             Instantiate(_hitEffect, transform.position, transform.rotation);
 
             canManipulateMaterial = true;
+            canSEtRenderer = true;
         }
 
-        if(canManipulateMaterial)
+
+        if (_setTrailRendererParent && canSEtRenderer)
+        {
+            _trailRenderer.transform.SetParent(null);
+            Destroy(_trailRenderer.gameObject, 1f);
+        }
+
+        if (canManipulateMaterial)
         {
             ShockWaveController.Instance.SetPosition(transform.position);
             Destroy(gameObject);
         }
+        if(canSEtRenderer)
+            Destroy(gameObject);
     }
 }

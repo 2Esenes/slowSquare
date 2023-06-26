@@ -48,7 +48,7 @@ public class EnemyBasicController : MonoBehaviour
         if (muzzleFlasf == null) { muzzleFlasf = GetComponentInChildren<ParticleSystem>(); }
         shootTime -= Time.deltaTime;
         Player = FindObjectOfType<PlayerMovement>().gameObject;
-        playerPos = Player.transform.position;
+        playerPos = Player.transform.position + Player.transform.up * (0.5f + Random.Range(-0.2f, 0.2f));
         Vector3 dir = playerPos - new Vector2(fireRotate.transform.position.x, fireRotate.transform.position.y);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

@@ -10,10 +10,6 @@ public class PocionBullet : MonoBehaviour
     {
         collider = GetComponent<BoxCollider2D>();
         Destroy(gameObject, 4);
-    }
-
-    private void Update()
-    {
         Invoke("DisableMyCollider", timeMan);
     }
 

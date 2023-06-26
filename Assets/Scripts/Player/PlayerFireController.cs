@@ -78,7 +78,9 @@ public class PlayerFireController : MonoBehaviour
     public void Fire(GameObject gun )
     {
         GameObject bullet = Instantiate(gun, firePoint.position, firePoint.rotation);
-        bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
+        var bulletRB = bullet.GetComponent<Rigidbody2D>();
+        if(bulletRB != null)
+            bulletRB.AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
         muzzleFlash.Play();
         FireGun.Play();
     }
