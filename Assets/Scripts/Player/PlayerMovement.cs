@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private RaycastHit2D raycastHit;
 
+    [SerializeField] PlayerDeathAnimation _playerDeathAnimation;
 
     public bool _gameStop = false;
     public GameObject _dieEffect;
@@ -29,6 +30,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (_isDeath && Input.anyKey)
+        {
+            HomeAndAgainButton();
+        }
+
         if (_gameStop == true)
         {
             tryAgainButton.SetActive(true);
@@ -94,8 +100,10 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    bool _isDeath;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_isDeath) return;
         if (collision.transform.tag == "Bullet")
         {
             DeathSounds.Play();
@@ -106,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
                 eyes[i].enabled = false;
             }
             Instantiate(_dieEffect, transform.position, transform.rotation);
+            _isDeath = true;
         }
     }
 

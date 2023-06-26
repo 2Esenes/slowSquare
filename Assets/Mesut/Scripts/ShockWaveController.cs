@@ -8,7 +8,9 @@ public sealed class ShockWaveController : MonoBehaviour
     private static ShockWaveController _instance;
     public static ShockWaveController Instance => _instance;
 
-    [SerializeField] Material _shockWaveMat;
+    //[SerializeField] Material _shockWaveMat;
+    [SerializeField] SpriteRenderer _prefab;
+    [SerializeField] CinemachineCameraShake _cameraShake;
 
     [SerializeField] float _shockWaveDuration = 0.25f;
     [SerializeField] float _centerDistanceMax = 0.3f;
@@ -17,6 +19,7 @@ public sealed class ShockWaveController : MonoBehaviour
     [SerializeField] float _strengthDuration = 0.25f;
     [SerializeField] GameObject[] _objects;
 
+    int _sortingOrder;
     public void Init()
     {
         if (_instance != null && _instance != this)
@@ -27,25 +30,33 @@ public sealed class ShockWaveController : MonoBehaviour
 
     public void SetPosition(Vector2 position)
     {
-        var hitPosition = position;
-        var screenPos = Camera.main.WorldToScreenPoint(hitPosition);
-        var reso = new Vector2Int(922, 487);
+        //var hitPosition = position;
+        //var screenPos = Camera.main.WorldToScreenPoint(hitPosition);
+        //var reso = new Vector2Int(922, 487);
 
-        var screenPosNormalized = new Vector2(screenPos.x / reso.x, screenPos.y / reso.y);
-        _shockWaveMat.SetVector("_RingSpawnPosition", screenPosNormalized);
-        PlayAnimation();
+        //var screenPosNormalized = new Vector2(screenPos.x / reso.x, screenPos.y / reso.y);
+        _sortingOrder++;
+        _sortingOrder = Mathf.Clamp(_sortingOrder, 0, 500);
+        var sr =Instantiate(_prefab);
+        var shockWaveObj = sr.gameObject;
+        sr.transform.position = position;
+        sr.sortingOrder = _sortingOrder;
+        //_shockWaveMat.SetVector("_RingSpawnPosition", screenPosNormalized);
+        var mat = sr.material;
+        PlayAnimation(shockWaveObj, mat);
     }
 
-    private void PlayAnimation()
+    private void PlayAnimation(GameObject shockWave, Material mat)
     {
-        for (int i = 0; i < _objects.Length; i++)
-            _objects[i].SetActive(true);
+        _cameraShake.Shake();
+        //for (int i = 0; i < _objects.Length; i++)
+        //    _objects[i].SetActive(true);
 
         float distanceTimer = _centerDistanceStart;
         DOTween.To(() => distanceTimer, (x) => distanceTimer = x, _centerDistanceMax, _shockWaveDuration)
             .OnUpdate(() =>
             {
-                _shockWaveMat.SetFloat("_WaveDistanceFromCenter", distanceTimer);
+                mat.SetFloat("_WaveDistanceFromCenter", distanceTimer);
             })
             .OnComplete(() =>
             {
@@ -53,15 +64,16 @@ public sealed class ShockWaveController : MonoBehaviour
                 DOTween.To(() => strengthTimer, (x) => strengthTimer = x, 0f, _strengthDuration)
                     .OnUpdate(() =>
                     {
-                        _shockWaveMat.SetFloat("_ShockWaveStrength", strengthTimer);
+                        mat.SetFloat("_ShockWaveStrength", strengthTimer);
                     })
                     .OnComplete(() =>
                     {
-                        _shockWaveMat.SetFloat("_WaveDistanceFromCenter", _centerDistanceStart);
-                        _shockWaveMat.SetFloat("_ShockWaveStrength", _strengthStart);
+                        mat.SetFloat("_WaveDistanceFromCenter", _centerDistanceStart);
+                        mat.SetFloat("_ShockWaveStrength", _strengthStart);
 
                         for (int i = 0; i < _objects.Length; i++)
                             _objects[i].SetActive(false);
+                        Destroy(shockWave);
                     });
             });
     }

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainCompositionRoot : MonoBehaviour
@@ -21,6 +22,11 @@ public class MainCompositionRoot : MonoBehaviour
             Debug.Log((DateTime.Now - _startime).TotalMinutes);
             Debug.Log((DateTime.Now - _startime).TotalSeconds);
         }
+
+        if(Input.GetKeyDown(KeyCode.None))
+        {
+            Debug.Log("Any");
+        }
     }
 
     private void Init()
@@ -35,7 +41,6 @@ public class MainCompositionRoot : MonoBehaviour
         {
             _otherReferences.GreenPlayerFirstLvls[i].Init(_serviceReferences.AdManager);
         }
-
         // =============================
     }
 
