@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool _gameStop = false;
     public GameObject _dieEffect;
+    
 
     //try Again Canvas
     public GameObject tryAgainButton;
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
+            
         }
 
         if (Input.GetKeyDown(KeyCode.W) && !isJumping)
