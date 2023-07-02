@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
         // Zýplama
-        if (Input.GetButtonDown("Jump") && !isJumping)
+        if (Input.GetButtonDown("Jump") && !isJumping || Input.GetKeyDown(KeyCode.W) && !isJumping)
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
@@ -77,24 +77,7 @@ public class PlayerMovement : MonoBehaviour
             Instantiate(hoppaDustParticle , transform.position ,transform.rotation);
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && !isJumping)
-        {
-            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-            isJumping = true;
-            JumpSounds.Play();
-
-
-            if (_landingPunchTween!= null)
-            {
-                _landingPunchTween.Kill();
-                _landingPunchTween = null;
-            }
-
-            transform.localScale = Vector3.one;
-            _jumpPunchTween = transform.DOPunchScale(_jumpPunchSettings.Punch, _jumpPunchSettings.Duration, _jumpPunchSettings.Vibrato, _jumpPunchSettings.Elasticity)
-                .SetUpdate(true);
-            Instantiate(hoppaDustParticle, transform.position, transform.rotation);
-        }
+        
 
         if (_gameStop == true)
         {
