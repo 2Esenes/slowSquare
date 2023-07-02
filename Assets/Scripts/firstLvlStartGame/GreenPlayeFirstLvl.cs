@@ -1,10 +1,14 @@
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class GreenPlayeFirstLvl : MonoBehaviour
 {
     public LevelController _lvlContrller;
 
     AdManager _adManager;
+
+    
 
     public void Init(AdManager adManager)
     {
@@ -17,6 +21,10 @@ public class GreenPlayeFirstLvl : MonoBehaviour
         {
             _adManager.ShowInterstatialByTime(OnAdIsClosed);
         }
+    }
+    public void AbiAnnamadimBuniHeHe()
+    {
+        _adManager.ShowInterstatialByTime(OnAdIsClosed);
     }
 
     private void OnAdIsClosed()

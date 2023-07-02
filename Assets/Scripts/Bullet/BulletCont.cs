@@ -21,6 +21,7 @@ public class BulletCont : MonoBehaviour
     {
         bool canManipulateMaterial = false;
         bool canSEtRenderer = false;
+        if (collision.transform.tag == "StartEnemy") { collision.GetComponent<StartEnemyController>().Die(); }
         if (collision.transform.tag == "Enemy")
         {
             Instantiate(_hitEffect, transform.position, transform.rotation);

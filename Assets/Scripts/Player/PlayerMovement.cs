@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
-            Instantiate(dustEffect, new Vector2(transform.position.x , transform.position.y) , transform.rotation);
+            //Instantiate(dustEffect, new Vector2(transform.position.x , transform.position.y) , transform.rotation);
 
 
             if (_landingPunchTween != null)
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
-            Instantiate(dustEffect, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            //Instantiate(dustEffect, new Vector2(transform.position.x, transform.position.y), transform.rotation);
 
 
             if (_landingPunchTween!= null)
@@ -159,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = Vector3.one;
                 _landingPunchTween = transform.DOPunchScale(_landingPunchSettings.Punch, _landingPunchSettings.Duration, _landingPunchSettings.Vibrato, _landingPunchSettings.Elasticity)
                     .SetUpdate(true);
-                Instantiate(dustEffect, new Vector3(transform.position.x , transform.position.y - 0.3f), transform.rotation);
+                //Instantiate(dustEffect, new Vector3(transform.position.x , transform.position.y - 0.3f), transform.rotation);
             }
             _onAir = false;
         }
