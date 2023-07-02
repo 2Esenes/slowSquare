@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] PunchSettings _jumpPunchSettings;
     [SerializeField] PunchSettings _landingPunchSettings;
     [SerializeField] LayerMask _groundMask;
-    [SerializeField] ParticleSystem _landingParticle;
+    //[SerializeField] ParticleSystem _landingParticle;
 
     public bool _gameStop = false;
     public GameObject _dieEffect;
@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     //Ses
     public AudioSource JumpSounds;
     public AudioSource DeathSounds;
+
+    //hoppa Particle
+    public GameObject hoppaDustParticle;
 
 
     void Start()
@@ -61,6 +64,17 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
+
+            if (_landingPunchTween != null)
+            {
+                _landingPunchTween.Kill();
+                _landingPunchTween = null;
+            }
+
+            transform.localScale = Vector3.one;
+            _jumpPunchTween = transform.DOPunchScale(_jumpPunchSettings.Punch, _jumpPunchSettings.Duration, _jumpPunchSettings.Vibrato, _jumpPunchSettings.Elasticity)
+                .SetUpdate(true);
+            Instantiate(hoppaDustParticle , transform.position ,transform.rotation);
         }
 
         if (Input.GetKeyDown(KeyCode.W) && !isJumping)
@@ -79,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = Vector3.one;
             _jumpPunchTween = transform.DOPunchScale(_jumpPunchSettings.Punch, _jumpPunchSettings.Duration, _jumpPunchSettings.Vibrato, _jumpPunchSettings.Elasticity)
                 .SetUpdate(true);
+            Instantiate(hoppaDustParticle, transform.position, transform.rotation);
         }
 
         if (_gameStop == true)
@@ -144,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
                 _landingPunchTween = transform.DOPunchScale(_landingPunchSettings.Punch, _landingPunchSettings.Duration, _landingPunchSettings.Vibrato, _landingPunchSettings.Elasticity)
                     .SetUpdate(true);
 
-                _landingParticle.Play();
+                Instantiate(hoppaDustParticle, new Vector3(transform.position.x, transform.position.y - 0.3f), transform.rotation);
             }
             _onAir = false;
         }
