@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -15,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] PunchSettings _jumpPunchSettings;
     [SerializeField] PunchSettings _landingPunchSettings;
     [SerializeField] LayerMask _groundMask;
+    [SerializeField] ParticleSystem _landingParticle;
 
     public bool _gameStop = false;
     public GameObject _dieEffect;
@@ -128,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _onAir = true;
         }
-        else if(raycastHit.collider != null && _onAir)
+        else if(raycastHit.collider != null && _onAir && raycastHit.collider.CompareTag("Ground"))
         {
             if(_onAir)
             {
@@ -141,6 +143,8 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = Vector3.one;
                 _landingPunchTween = transform.DOPunchScale(_landingPunchSettings.Punch, _landingPunchSettings.Duration, _landingPunchSettings.Vibrato, _landingPunchSettings.Elasticity)
                     .SetUpdate(true);
+
+                _landingParticle.Play();
             }
             _onAir = false;
         }
@@ -150,8 +154,10 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isDeath) return;
+
         if (collision.transform.tag == "Bullet")
         {
+            Debug.Log("collision Name: " + collision.name);
             DeathSounds.Play();
             GetComponent<SpriteRenderer>().enabled = false;
             var eyes = GetComponentsInChildren<SpriteRenderer>();
@@ -172,8 +178,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void HomeAndAgainButton()
+    public void HomeAndAgainButton([CallerMemberName] string callerName = "")
     {
+        Debug.Log("callerName: " + callerName);
         SceneManager.LoadScene(0);
         //_gameStop = false;
         //rb.constraints = RigidbodyConstraints2D.None;

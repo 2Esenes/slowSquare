@@ -28,7 +28,7 @@ public sealed class ShockWaveController : MonoBehaviour
             _instance = this;
     }
 
-    public void SetPosition(Vector2 position)
+    public void SetPosition(Vector2 position, float size = 0.1f)
     {
         //var hitPosition = position;
         //var screenPos = Camera.main.WorldToScreenPoint(hitPosition);
@@ -43,6 +43,7 @@ public sealed class ShockWaveController : MonoBehaviour
         sr.sortingOrder = _sortingOrder;
         //_shockWaveMat.SetVector("_RingSpawnPosition", screenPosNormalized);
         var mat = sr.material;
+        mat.SetFloat("_Size", size);
         PlayAnimation(shockWaveObj, mat);
     }
 

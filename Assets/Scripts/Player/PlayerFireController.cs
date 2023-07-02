@@ -75,6 +75,7 @@ public class PlayerFireController : MonoBehaviour
     
     }
 
+    [SerializeField] float _size = 0.025f;
     public void Fire(GameObject gun )
     {
         GameObject bullet = Instantiate(gun, firePoint.position, firePoint.rotation);

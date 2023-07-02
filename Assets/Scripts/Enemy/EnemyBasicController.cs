@@ -12,6 +12,7 @@ public class EnemyBasicController : MonoBehaviour
     public Transform target;
     Vector2 playerPos;
     public GameObject Player;
+    [SerializeField] Vector2 _minMaxShootTime = new Vector2(1.5f, 3f);
     public float shootTime = 3;
     public float baseShootTime = 3;
 
@@ -38,9 +39,15 @@ public class EnemyBasicController : MonoBehaviour
     {
         _levelController = FindObjectOfType<LevelController>();
         cam = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
-        
+
         //BulletFire = GameObject.Find("PlayerFire");
         //DieVoice = GameObject.Find("PlayerDeath");
+        shootTime = GetShootTime();
+    }
+
+    float GetShootTime()
+    {
+        return Random.Range(_minMaxShootTime.x, _minMaxShootTime.y);
     }
 
     private void Update()
@@ -58,8 +65,8 @@ public class EnemyBasicController : MonoBehaviour
             if (shootTime <= 0)
             {
                 Fire();
-                shootTime = baseShootTime;
-
+                shootTime = GetShootTime();
+                Debug.Log("ShootTime: " + shootTime);
             }
         }
         else
@@ -72,8 +79,8 @@ public class EnemyBasicController : MonoBehaviour
                 Invoke("Fire", 0.2f);
                 Invoke("Fire", 0.4f);
                 
-                shootTime = baseShootTime;
-
+                shootTime = GetShootTime();
+                Debug.Log("ShootTime: " + shootTime);
             }
         }
         

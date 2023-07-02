@@ -27,6 +27,8 @@ public class LevelController : MonoBehaviour
     public GameObject[] skillCards;
     public GameObject[] skillCardsLeft;
 
+    [SerializeField] BackgroundColorChanger _colorChanger;
+
     GameObject player;
     public int _nextLvl = 0;
 
@@ -37,7 +39,6 @@ public class LevelController : MonoBehaviour
 
     private void Update()
     {
-        
         ScoreText.text = _lVl.ToString();
         if(_lVl == 2 && _nextLvl == 0) { _nextLvl = 2; }
         if (_lVl == 2 && _nextLvl == 2) // 1 den 2 ye
@@ -292,6 +293,8 @@ public class LevelController : MonoBehaviour
             Lvl14.SetActive(false);
             PlayerTransformLvl(1, 0);
         }
+
+        _colorChanger.ChangeBGColor();
 
     }
     //her Skill Kartýnda çaðýr

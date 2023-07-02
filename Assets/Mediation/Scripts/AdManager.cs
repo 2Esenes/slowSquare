@@ -35,6 +35,8 @@ public class AdManager : MonoBehaviour
 
     Action _onInterstatialClosed;
 
+    bool _debugMode;
+
     private void Awake()
     {
         //Init();
@@ -75,7 +77,8 @@ public class AdManager : MonoBehaviour
         _rewardedAdManager.TerminateAd();
 
         IronSourceEvents.onSdkInitializationCompletedEvent -= OnSdkInitializationComplateEvent;
-        Debug.Log("Ads are terminated");
+        if(_debugMode)
+            Debug.Log("Ads are terminated");
     }
 
     private void RemoveAdsByNoAdPurchase()
@@ -212,8 +215,8 @@ public class AdManager : MonoBehaviour
 
         LoadAds();
 #endif
-
-        Debug.Log("AdManagers are created");
+        if(_debugMode)
+            Debug.Log("AdManagers are created");
     }
 
     private void OnSdkInitializationComplateEvent()
