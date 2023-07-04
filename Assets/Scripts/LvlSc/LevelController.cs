@@ -1,3 +1,5 @@
+using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,25 +7,27 @@ public class LevelController : MonoBehaviour
 {
     public int _lVl; //died enemy count
     public Text ScoreText;
+    [SerializeField] TextMeshProUGUI _scoreText;
 
     [SerializeField] GameObject[] _levels;
+    [SerializeField] 
     #region LvL Platforms
 
-    public GameObject Lvl1;
-    public GameObject Lvl2;
-    public GameObject Lvl3;
-    public GameObject Lvl4;
-    public GameObject Lvl5;
-    public GameObject Lvl6;
-    public GameObject Lvl7;
-    public GameObject Lvl8;
-    public GameObject Lvl9;
-    public GameObject Lvl10;
-    public GameObject Lvl11;
-    public GameObject Lvl12;
-    public GameObject Lvl13;
-    public GameObject Lvl14;
-    public GameObject Lvl15;
+    //public GameObject Lvl1;
+    //public GameObject Lvl2;
+    //public GameObject Lvl3;
+    //public GameObject Lvl4;
+    //public GameObject Lvl5;
+    //public GameObject Lvl6;
+    //public GameObject Lvl7;
+    //public GameObject Lvl8;
+    //public GameObject Lvl9;
+    //public GameObject Lvl10;
+    //public GameObject Lvl11;
+    //public GameObject Lvl12;
+    //public GameObject Lvl13;
+    //public GameObject Lvl14;
+    //public GameObject Lvl15;
     #endregion
 
     public GameObject[] skillCards;
@@ -39,8 +43,31 @@ public class LevelController : MonoBehaviour
         player = FindObjectOfType<PlayerMovement>().gameObject;
     }
 
+    [Button]
+    public void Test()
+    {
+        var min = 0f;
+        var seconds = 57.2550f;
+        _scoreText.text = $"{min} Mins - {seconds:F2} Secs";
+    }
+
     public void OpenSkillCards()
     {
+        bool isGameFinished = _nextLvl == _levels.Length - 2;
+        _nextLvl++;
+        if (isGameFinished)
+        {
+            StartLevel();
+            TimeController.Instance.FinishSession();
+            var finishSeconds = TimeController.Instance.FinishTimeSeconds;
+            var min = Mathf.FloorToInt(finishSeconds / 60f);
+            var seconds = finishSeconds % 60f;
+
+            _scoreText.text = $"{min} Mins : {seconds:F2} Secs";
+
+            return;
+        }
+
         int randomInt = Random.Range(0, skillCards.Length);
         //print(randomInt);
         skillCards[randomInt].SetActive(true);
@@ -48,11 +75,13 @@ public class LevelController : MonoBehaviour
         int randomInt2 = Random.Range(0, skillCardsLeft.Length);
         //print(randomInt2);
         skillCardsLeft[randomInt2].SetActive(true);
-        _nextLvl++;
     }
 
     public void StartLevel()
     {
+        if (_nextLvl - 1 == 0)
+            TimeController.Instance.StartSession();
+
         _levels[_nextLvl - 1].SetActive(false);
         _levels[_nextLvl].SetActive(true);
         PlayerTransformLvl(1, 0);

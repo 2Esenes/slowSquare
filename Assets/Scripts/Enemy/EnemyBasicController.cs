@@ -36,7 +36,9 @@ public class EnemyBasicController : MonoBehaviour
 
     public bool isTutoEnemy;
 
-   
+
+    System.Action<EnemyBasicController> _onDie;
+
     private void Start()
     {
         _levelController = FindObjectOfType<LevelController>();
@@ -89,8 +91,6 @@ public class EnemyBasicController : MonoBehaviour
                 Debug.Log("ShootTime: " + shootTime);
             }
         }
-        
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -115,6 +115,17 @@ public class EnemyBasicController : MonoBehaviour
         Instantiate(_dieEffect , transform.position , transform.rotation);
         cam.GetComponent<Animator>().SetTrigger("camShake");
         DieVoice.Play();
+        _onDie?.Invoke(this);
         Destroy(gameObject);
+    }
+
+    public void RegisterOnDie(System.Action<EnemyBasicController> action)
+    {
+        _onDie += action;
+    }
+
+    public void UnRegisterOnDie(System.Action<EnemyBasicController> action)
+    {
+        _onDie -= action;
     }
 }

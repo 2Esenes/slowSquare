@@ -10,7 +10,7 @@ public class GreenPlayeFirstLvl : MonoBehaviour
     {
         if (collision.transform.tag == "Player")
         {
-            _lvlContrller._lVl = 2;
+            _lvlContrller.OpenSkillCards();
         }
     }
 

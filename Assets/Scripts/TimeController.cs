@@ -1,10 +1,12 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class TimeController : MonoBehaviour
 {
     private static TimeController _instance;
     public static TimeController Instance => _instance;
+
 
     private float _currentTime = 1f;
     public float TimeScale => _currentTime;
@@ -14,7 +16,7 @@ public class TimeController : MonoBehaviour
     float _sessionTimer;
     bool _hasSessionFinished;
 
-    float FinishTime => _sessionTimer;
+    public float FinishTimeSeconds => _sessionTimer;
 
     public DateTime LastestShowedTime {
         get
@@ -46,6 +48,11 @@ public class TimeController : MonoBehaviour
     public void StartSession()
     {
         _sessionTimer = 0f;
+    }
+
+    public void FinishSession()
+    {
+        _hasSessionFinished = true;
     }
 
     private void Update()
