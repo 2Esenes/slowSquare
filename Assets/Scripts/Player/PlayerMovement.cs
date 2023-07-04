@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource JumpSounds;
     public AudioSource DeathSounds;
 
+    System.Action _onDie;
 
     void Start()
     {
@@ -167,7 +168,18 @@ public class PlayerMovement : MonoBehaviour
             }
             Instantiate(_dieEffect, transform.position, transform.rotation);
             _isDeath = true;
+            _onDie?.Invoke();
         }
+    }
+
+    public void RegisterOnDie(System.Action action)
+    {
+        _onDie += action;
+    }
+
+    public void UnRegisterOnDie(System.Action action)
+    {
+        _onDie -= action;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

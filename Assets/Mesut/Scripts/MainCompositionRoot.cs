@@ -17,7 +17,7 @@ public class MainCompositionRoot : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log((DateTime.Now - _startime).TotalMinutes);
             Debug.Log((DateTime.Now - _startime).TotalSeconds);
@@ -32,11 +32,14 @@ public class MainCompositionRoot : MonoBehaviour
         _serviceReferences.ShockWaveController.Init();
 
         // === Other References Init ===
-        for (int i = 0; i < _otherReferences.GreenPlayerFirstLvls.Length; i++)
-        {
-            _otherReferences.GreenPlayerFirstLvls[i].Init(_serviceReferences.AdManager);
-        }
+        _otherReferences.PlayerMovement.RegisterOnDie(OnPlayerDie);
         // =============================
+    }
+
+    private void OnPlayerDie()
+    {
+        _serviceReferences.AdManager.ShowInterstatialByTime(null);
+        _otherReferences.PlayerMovement.UnRegisterOnDie(OnPlayerDie);
     }
 
     [System.Serializable]
@@ -52,5 +55,6 @@ public class MainCompositionRoot : MonoBehaviour
     public sealed class OtherReferences
     {
         [field: SerializeField] public GreenPlayeFirstLvl[] GreenPlayerFirstLvls { get; private set; }
+        [field: SerializeField] public PlayerMovement PlayerMovement { get; private set; } 
     }
 }

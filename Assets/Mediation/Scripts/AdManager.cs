@@ -52,7 +52,7 @@ public class AdManager : MonoBehaviour
 
         if (!check)
         {
-            onClosed.Invoke();
+            onClosed?.Invoke();
             _onInterstatialClosed = null;
             return;
         }

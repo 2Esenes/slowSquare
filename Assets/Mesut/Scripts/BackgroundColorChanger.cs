@@ -14,13 +14,13 @@ public sealed class BackgroundColorChanger : MonoBehaviour
         // var color = _colors[level];
         //var color = new Color(GetRandomInt(), GetRandomInt(), GetRandomInt(), 255);
         var color = _bgRenderer.color;
-        color.r = GetRandomInt();
-        color.g = GetRandomInt();
-        color.b = GetRandomInt();
+        color.r = GetRandomFloat();
+        color.g = GetRandomFloat();
+        color.b = GetRandomFloat();
         _bgRenderer.color = color;
     }
 
-    private float GetRandomInt()
+    private float GetRandomFloat()
     {
         return Random.Range(_minMaxColorRange.x, _minMaxColorRange.y + 1);
     }
