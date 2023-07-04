@@ -140,12 +140,12 @@ public class PlayerMovement : MonoBehaviour
                     _jumpPunchTween.Kill();
                     _jumpPunchTween = null;
                 }
-                _landingParticle.Play();
+                
                 transform.localScale = Vector3.one;
                 _landingPunchTween = transform.DOPunchScale(_landingPunchSettings.Punch, _landingPunchSettings.Duration, _landingPunchSettings.Vibrato, _landingPunchSettings.Elasticity)
                     .SetUpdate(true);
 
-                
+                _landingParticle.Play();
             }
             _onAir = false;
         }
