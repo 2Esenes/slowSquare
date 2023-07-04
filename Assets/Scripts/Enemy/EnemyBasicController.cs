@@ -34,6 +34,8 @@ public class EnemyBasicController : MonoBehaviour
     //ates et flash yak
     private ParticleSystem muzzleFlasf;
 
+    public bool isTutoEnemy;
+
    
     private void Start()
     {
@@ -52,6 +54,8 @@ public class EnemyBasicController : MonoBehaviour
 
     private void Update()
     {
+        if (isTutoEnemy == true) return;
+
         if (muzzleFlasf == null) { muzzleFlasf = GetComponentInChildren<ParticleSystem>(); }
         shootTime -= Time.deltaTime;
         Player = FindObjectOfType<PlayerMovement>().gameObject;
@@ -59,7 +63,9 @@ public class EnemyBasicController : MonoBehaviour
         Vector3 dir = playerPos - new Vector2(fireRotate.transform.position.x, fireRotate.transform.position.y);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         
+
         if (iHaveMachineGun == false)
         {
             if (shootTime <= 0)
