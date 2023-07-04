@@ -30,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
 
     System.Action _onDie;
 
-    [SerializeField] bool _debugMode;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -43,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        _gameStop = false;
         if (_isDeath && Input.anyKeyDown)
         {
             HomeAndAgainButton();
@@ -157,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
     bool _isDeath;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_isDeath || _debugMode) return;
+        if (_isDeath) return;
 
         if (collision.transform.tag == "Bullet")
         {
