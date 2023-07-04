@@ -10,6 +10,12 @@ public class TimeController : MonoBehaviour
     public float TimeScale => _currentTime;
 
     DateTime _lastestShowedTime;
+
+    float _sessionTimer;
+    bool _hasSessionFinished;
+
+    float FinishTime => _sessionTimer;
+
     public DateTime LastestShowedTime {
         get
         {
@@ -31,10 +37,20 @@ public class TimeController : MonoBehaviour
             _instance = this;
     }
 
-
     public void ChangeTimeScale(float newTimeScale)
     {
         _currentTime = newTimeScale;
         Time.timeScale = _currentTime;
+    }
+
+    public void StartSession()
+    {
+        _sessionTimer = 0f;
+    }
+
+    private void Update()
+    {
+        if (_hasSessionFinished) return;
+        _sessionTimer += Time.deltaTime;
     }
 }
