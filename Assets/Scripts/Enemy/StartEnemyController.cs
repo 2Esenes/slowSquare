@@ -73,8 +73,6 @@ public class StartEnemyController : MonoBehaviour
         Instantiate(_dieEffect, transform.position, transform.rotation);
         cam.GetComponent<Animator>().SetTrigger("camShake");
         DieVoice.Play();
-        Fuck.AbiAnnamadimBuniHeHe();
         Destroy(gameObject);
-        
     }
 }

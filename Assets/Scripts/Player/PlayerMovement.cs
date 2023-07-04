@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] PunchSettings _jumpPunchSettings;
     [SerializeField] PunchSettings _landingPunchSettings;
     [SerializeField] LayerMask _groundMask;
-    //[SerializeField] ParticleSystem _landingParticle;
+    [SerializeField] ParticleSystem _landingParticle;
 
     public bool _gameStop = false;
     public GameObject _dieEffect;
@@ -28,9 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource JumpSounds;
     public AudioSource DeathSounds;
 
-    //hoppa Particle
-    public GameObject hoppaDustParticle;
-
+    System.Action _onDie;
 
     void Start()
     {
@@ -59,13 +57,21 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
         // Zýplama
-        if (Input.GetButtonDown("Jump") && !isJumping || Input.GetKeyDown(KeyCode.W) && !isJumping)
+        if (Input.GetButtonDown("Jump") && !isJumping)
+        {
+            rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            isJumping = true;
+            JumpSounds.Play();
+        }
+
+        if (Input.GetKeyDown(KeyCode.W) && !isJumping)
         {
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
 
-            if (_landingPunchTween != null)
+
+            if (_landingPunchTween!= null)
             {
                 _landingPunchTween.Kill();
                 _landingPunchTween = null;
@@ -74,10 +80,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = Vector3.one;
             _jumpPunchTween = transform.DOPunchScale(_jumpPunchSettings.Punch, _jumpPunchSettings.Duration, _jumpPunchSettings.Vibrato, _jumpPunchSettings.Elasticity)
                 .SetUpdate(true);
-            Instantiate(hoppaDustParticle , transform.position ,transform.rotation);
         }
-
-        
 
         if (_gameStop == true)
         {
@@ -142,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
                 _landingPunchTween = transform.DOPunchScale(_landingPunchSettings.Punch, _landingPunchSettings.Duration, _landingPunchSettings.Vibrato, _landingPunchSettings.Elasticity)
                     .SetUpdate(true);
 
-                Instantiate(hoppaDustParticle, new Vector3(transform.position.x, transform.position.y - 0.3f), transform.rotation);
+                _landingParticle.Play();
             }
             _onAir = false;
         }
@@ -165,7 +168,18 @@ public class PlayerMovement : MonoBehaviour
             }
             Instantiate(_dieEffect, transform.position, transform.rotation);
             _isDeath = true;
+            _onDie?.Invoke();
         }
+    }
+
+    public void RegisterOnDie(System.Action action)
+    {
+        _onDie += action;
+    }
+
+    public void UnRegisterOnDie(System.Action action)
+    {
+        _onDie -= action;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
