@@ -4,11 +4,15 @@ using UnityEngine;
 using TMPro;
 using Dan.Main;
 using UnityEngine.SocialPlatforms.Impl;
+using NaughtyAttributes;
 
 public class LeaderBoardC : MonoBehaviour
 {
     [SerializeField] List<TextMeshProUGUI> names;
     [SerializeField] List<TextMeshProUGUI> scores;
+
+    [SerializeField] List<UserDataUI> _userDatas;
+    [SerializeField] UserDataUI _playerData;
 
     private string publicLeaderBoardKey = "502429acc20560a32f68f286a04ef83b8b6088bf37e5571a4d984f33c432896f";
 
@@ -18,14 +22,43 @@ public class LeaderBoardC : MonoBehaviour
         GetLeaderBoard();
     }
 
+    [Button]
+    public void DeleteLeaderBoard()
+    {
+        LeaderboardCreator.GetLeaderboard(publicLeaderBoardKey, ((msg) =>
+        {
+            int loopLength = (msg.Length < names.Count) ? msg.Length : names.Count;
+
+            for (int i = 0; i < msg.Length; i++)
+            {
+                Debug.Log("UsernameL: " + msg[i].Username);
+                LeaderboardCreator.DeleteEntry(publicLeaderBoardKey, msg[i].Username);
+            }
+
+            GetLeaderBoard();
+        }));
+
+    }
+
     public void GetLeaderBoard()
     {
         LeaderboardCreator.GetLeaderboard(publicLeaderBoardKey, ((msg) => {
             int loopLength = (msg.Length < names.Count) ? msg.Length : names.Count;
-            for (int i = 0; i < names.Count; i++)
+
+            for (int i = 0; i < loopLength; i++)
             {
-                names[i].text = msg[i].Username;
-                scores[i].text = msg[i].Score.ToString();
+                bool check = i < msg.Length;
+
+                string userName = "=== EMPTY ===";
+                string scoreStr = "??.?? Secs";
+
+                if (check)
+                {
+                    userName = msg[i].Username;
+                    scoreStr = msg[i].Score.ToString();
+                }
+
+                _userDatas[i].SetData(userName, scoreStr);
             }
         }));
     }

@@ -214,6 +214,27 @@ namespace Dan.Main
                 Requests.Field("userGuid", UserGuid)), callback, errorCallback);
         }
         
+        public static void DeleteEntry(string publicKey, string userName, Action<bool> callback = null, Action<string> errorCallback = null)
+        {
+            if (string.IsNullOrEmpty(publicKey))
+            {
+                LogError("Public key cannot be null or empty!");
+                return;
+            }
+
+            callback += isSuccessful =>
+            {
+                if (!isSuccessful)
+                    LogError("Deleting entry failed!");
+                else
+                    Log("Successfully deleted player's entry!");
+            };
+
+            _behaviour.SendPostRequest(GetServerURL(Routes.DeleteEntry), Requests.Form(
+                Requests.Field("publicKey", publicKey),
+                Requests.Field("username", userName)), callback, errorCallback);
+        }
+
         /// <summary>
         /// Resets a player's unique identifier and allows them to submit a new entry to the leaderboard.
         /// </summary>

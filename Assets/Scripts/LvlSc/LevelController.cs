@@ -61,6 +61,9 @@ public class LevelController : MonoBehaviour
             TimeController.Instance.FinishSession();
             var finishSeconds = TimeController.Instance.FinishTimeSeconds;
             var min = Mathf.FloorToInt(finishSeconds / 60f);
+
+            var finishSecondsInt = Mathf.FloorToInt(TimeController.Instance.FinishTimeSeconds * 100f);
+
             var seconds = finishSeconds % 60f;
 
             _scoreText.text = $"{min} Mins : {seconds:F2} Secs";
