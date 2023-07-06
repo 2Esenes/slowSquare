@@ -50,11 +50,14 @@ public class TimeController : MonoBehaviour
     {
         _sessionTimer = 0f;
         _hasSessitonStarted = true;
+        _hasSessionFinished = false;
+        Debug.Log("Session Started");
     }
 
     public void FinishSession()
     {
         _hasSessionFinished = true;
+        _hasSessitonStarted = false;
     }
 
     private void Update()

@@ -56,13 +56,28 @@ public class LeaderBoardC : MonoBehaviour
         }));
     }
 
+    bool _settingFirstTime;
     public void SetLeaderBoardEntry(string username , int score)
     {
-        LeaderboardCreator.DeleteEntry(publicLeaderBoardKey, (b) =>
-            LeaderboardCreator.UploadNewEntry(publicLeaderBoardKey, username, score, ((msg) => {
-            //username.Substring(0, 4); 
+        _settingFirstTime = PlayerPrefs.GetInt("SettingsFirstTime", 0) == 0 ? true : false;
+        if (!_settingFirstTime)
+        {
+            LeaderboardCreator.DeleteEntry(publicLeaderBoardKey, (b) =>
+                LeaderboardCreator.UploadNewEntry(publicLeaderBoardKey, username, score, ((msg) =>
+                {
+                    //username.Substring(0, 4); 
+                    GetLeaderBoard();
+                })));
+        }
+        else
+        {
+            LeaderboardCreator.UploadNewEntry(publicLeaderBoardKey, username, score, ((msg) =>
+            {
+                //username.Substring(0, 4); 
                 GetLeaderBoard();
-        })));
+            }));
+            PlayerPrefs.SetInt("SettingsFirstTime", 1);
+        }
     }
 
     bool _isMoving;
@@ -89,6 +104,7 @@ public class LeaderBoardC : MonoBehaviour
         _isMoving = true;
         targetTransform.gameObject.SetActive(true);
         targetTransform.DOLocalMoveY(yTransform, _settings.MoveDuration)
+            .SetUpdate(true)
             .SetEase(ease)
             .OnComplete(() =>
             {
@@ -98,30 +114,57 @@ public class LeaderBoardC : MonoBehaviour
     }
 
     string namePrefKey = "PlayerNameKey";
+    string lastScorePrefKey = "lastScoreKey";
 
-    int _score; 
+    int _score;
+    int _lastScore;
+    bool _closeActionCalled;
+    float _finishSeconds;
+
     [Button]
     public void OpenSubmitPanel()
     {
-        var name = PlayerPrefs.GetString(namePrefKey, "");
+        _closeActionCalled = false;
+        var name = PlayerPrefs.GetString(namePrefKey);
+        Debug.Log("Name: " + name);
 
         if (!string.IsNullOrEmpty(name))
             _submitSettings.InputField.text = name;
 
-        MoveTransform(_submitSettings.SubmitPanelTransform, _settings.YTargetPosition, _settings.OpenEase);
+        float delayTimer = 0f;
+        DOTween.To(() => delayTimer, (x) => delayTimer = x, _submitSettings.OpenDelayDuration, _submitSettings.OpenDelayDuration)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
 
-        var finishSeconds = TimeController.Instance.FinishTimeSeconds;
-        var min = Mathf.FloorToInt(finishSeconds / 60f);
+                MoveTransform(_submitSettings.SubmitPanelTransform, _settings.YTargetPosition, _settings.OpenEase);
 
-        var finishSecondsInt = Mathf.FloorToInt(TimeController.Instance.FinishTimeSeconds * 100f);
-        _score = finishSecondsInt;
+                _finishSeconds = TimeController.Instance.FinishTimeSeconds;
 
-        _submitSettings.ScoreText.text = $"{finishSeconds:F2} Secs";
+                var finishSecondsInt = Mathf.FloorToInt(TimeController.Instance.FinishTimeSeconds * 100f);
+                _score = finishSecondsInt;
+
+                if (!PlayerPrefs.HasKey(lastScorePrefKey))
+                {
+                    _lastScore = _score;
+                }
+                else
+                    _lastScore = PlayerPrefs.GetInt(lastScorePrefKey);
+
+                _submitSettings.ScoreText.text = $"{_finishSeconds:F2} Secs";
+                _submitSettings.BestScoreText.text = $"{(_lastScore / 100f):F2} Secs";
+
+            }
+            );
     }
 
     public void CloseSubmitPanel()
     {
+        if (_closeActionCalled) return;
+        _closeActionCalled = true;
         _submitSettings.SubmitPanelTransform.DOScale(Vector3.zero, _settings.MoveDuration)
+            .SetUpdate(true)
+            .SetDelay(_submitSettings.CloseDelayDuration)
             .SetEase(_submitSettings.CloseEase)
             .OnComplete(() =>
             {
@@ -136,11 +179,14 @@ public class LeaderBoardC : MonoBehaviour
 
     public void Submit()
     {
+        if (_closeActionCalled) return;
         var name = _submitSettings.InputField.text;
         if (string.IsNullOrEmpty(name)) return;
 
         PlayerPrefs.SetString(namePrefKey, name);
+        Debug.Log("Submit Name: " + name);
 
+        PlayerPrefs.SetInt(lastScorePrefKey, _score);
         SetLeaderBoardEntry(name, _score);
         CloseSubmitPanel();
     }
@@ -163,7 +209,10 @@ public class LeaderBoardC : MonoBehaviour
         [field: SerializeField] public RectTransform SubmitPanelTransform { get; private set; }
         [field: SerializeField] public TMP_InputField InputField { get; private set; }
         [field: SerializeField] public TextMeshProUGUI ScoreText { get; private set; }
+        [field: SerializeField] public TextMeshProUGUI BestScoreText { get; private set; }
         [field: SerializeField] public Ease CloseEase { get; private set; }
         [field: SerializeField] public float YStartingPosition { get; private set; }
+        [field: SerializeField] public float OpenDelayDuration { get; private set; }
+        [field: SerializeField] public float CloseDelayDuration { get; private set; }
     }
 }
