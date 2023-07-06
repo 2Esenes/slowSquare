@@ -15,6 +15,7 @@ public class TimeController : MonoBehaviour
 
     float _sessionTimer;
     bool _hasSessionFinished;
+    bool _hasSessitonStarted;
 
     public float FinishTimeSeconds => _sessionTimer;
 
@@ -48,6 +49,7 @@ public class TimeController : MonoBehaviour
     public void StartSession()
     {
         _sessionTimer = 0f;
+        _hasSessitonStarted = true;
     }
 
     public void FinishSession()
@@ -58,6 +60,8 @@ public class TimeController : MonoBehaviour
     private void Update()
     {
         if (_hasSessionFinished) return;
+        if (!_hasSessitonStarted) return;
+
         _sessionTimer += Time.deltaTime;
     }
 }

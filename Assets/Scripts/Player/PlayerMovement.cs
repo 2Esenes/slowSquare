@@ -39,8 +39,11 @@ public class PlayerMovement : MonoBehaviour
     Tween _jumpPunchTween;
     Tween _landingPunchTween;
 
+    [SerializeField] bool _debug;
+
     void Update()
     {
+        _gameStop = false;
         if (_isDeath && Input.anyKeyDown)
         {
             HomeAndAgainButton();
@@ -154,6 +157,7 @@ public class PlayerMovement : MonoBehaviour
     bool _isDeath;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_debug) return;
         if (_isDeath) return;
 
         if (collision.transform.tag == "Bullet")

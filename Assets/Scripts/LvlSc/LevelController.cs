@@ -34,6 +34,7 @@ public class LevelController : MonoBehaviour
     public GameObject[] skillCardsLeft;
 
     [SerializeField] BackgroundColorChanger _colorChanger;
+    [SerializeField] LeaderBoardC _leaderBoardManager;
 
     GameObject player;
     public int _nextLvl = 0;
@@ -59,14 +60,11 @@ public class LevelController : MonoBehaviour
         {
             StartLevel();
             TimeController.Instance.FinishSession();
-            var finishSeconds = TimeController.Instance.FinishTimeSeconds;
-            var min = Mathf.FloorToInt(finishSeconds / 60f);
+            _leaderBoardManager.OpenSubmitPanel();
+            //var finishSeconds = TimeController.Instance.FinishTimeSeconds;
+            //var min = Mathf.FloorToInt(finishSeconds / 60f);
 
-            var finishSecondsInt = Mathf.FloorToInt(TimeController.Instance.FinishTimeSeconds * 100f);
-
-            var seconds = finishSeconds % 60f;
-
-            _scoreText.text = $"{min} Mins : {seconds:F2} Secs";
+            //var finishSecondsInt = Mathf.FloorToInt(TimeController.Instance.FinishTimeSeconds * 100f);
 
             return;
         }

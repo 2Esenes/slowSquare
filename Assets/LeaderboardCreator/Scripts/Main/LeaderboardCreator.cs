@@ -16,6 +16,8 @@ namespace Dan.Main
 
         internal static string UserGuid;
 
+        public static string UserID => UserGuid;
+
         [RuntimeInitializeOnLoadMethod]
         private static void Initialize()
         {
@@ -148,7 +150,7 @@ namespace Dan.Main
                 Requests.Field("publicKey", publicKey),
                 Requests.Field("username", username),
                 Requests.Field("score", score.ToString()),
-                Requests.Field("extra", extra),
+                Requests.Field("extra", UserGuid),
                 Requests.Field("userGuid", UserGuid)), callback, errorCallback);
         }
 
