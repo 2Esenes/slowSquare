@@ -52,6 +52,8 @@ public class LevelController : MonoBehaviour
         _scoreText.text = $"{min} Mins - {seconds:F2} Secs";
     }
 
+    bool _isCardsSelectionOpened;
+
     public void OpenSkillCards()
     {
         bool isGameFinished = _nextLvl == _levels.Length - 2;
@@ -68,6 +70,10 @@ public class LevelController : MonoBehaviour
 
             return;
         }
+
+        if (_isCardsSelectionOpened) return;
+
+        _isCardsSelectionOpened = true;
 
         int randomInt = Random.Range(0, skillCards.Length);
         //print(randomInt);
@@ -87,6 +93,7 @@ public class LevelController : MonoBehaviour
         _levels[_nextLvl].SetActive(true);
         PlayerTransformLvl(1, 0);
 
+        _isCardsSelectionOpened = false;
         _colorChanger.ChangeBGColor();
     }
 
