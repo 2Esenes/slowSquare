@@ -1,3 +1,4 @@
+using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _scoreText;
 
     [SerializeField] GameObject[] _levels;
-    [SerializeField] 
+    [SerializeField] GameObject _tutorialLevel;
     #region LvL Platforms
 
     //public GameObject Lvl1;
@@ -30,18 +31,50 @@ public class LevelController : MonoBehaviour
     //public GameObject Lvl15;
     #endregion
 
+    [SerializeField] Button[] _skillCards;
+
     public GameObject[] skillCards;
     public GameObject[] skillCardsLeft;
+
+    [SerializeField]
+    GreenPlayeFirstLvl[] _starts;
 
     [SerializeField] BackgroundColorChanger _colorChanger;
     [SerializeField] LeaderBoardC _leaderBoardManager;
 
+    [SerializeField]
+    Button[] _leaderBoardClosePanels;
+    [SerializeField] Transform _playAgainButton;
+
     GameObject player;
     public int _nextLvl = 0;
+
+    string _tutorialLevelPrefKey = "TutorialLevelIsDone";
+    bool _tutorialLevelIsDone;
 
     private void Start()
     {
         player = FindObjectOfType<PlayerMovement>().gameObject;
+        _tutorialLevelIsDone = PlayerPrefs.GetInt(_tutorialLevelPrefKey, 0) == 1 ? true : false;
+
+        Debug.Log("Tutorial is done: " + _tutorialLevelIsDone);
+
+        for (int i = 0; i < _starts.Length; i++)
+        {
+            System.Action action = null;
+            if (_tutorialLevelIsDone)
+                action = OpenSkillCards;
+            else
+                action = StartLevel;
+
+            _starts[i].RegisterOnTriggerEnter(action);
+        }
+
+        if(_tutorialLevelIsDone)
+        {
+            for (int i = 0; i < _skillCards.Length; i++)
+                _skillCards[i].onClick.AddListener(StartLevel);
+        }
     }
 
     [Button]
@@ -50,6 +83,25 @@ public class LevelController : MonoBehaviour
         var min = 0f;
         var seconds = 57.2550f;
         _scoreText.text = $"{min} Mins - {seconds:F2} Secs";
+    }
+
+    private void OnGameFinishLeaderBoardCloseButtons()
+    {
+        for(int i = 0; i < _leaderBoardClosePanels.Length; i++)
+        {
+            Debug.Log("Adding");
+            var button = _leaderBoardClosePanels[i];
+            button.onClick.AddListener(OpenPlayAgainButton);
+        }
+    }
+
+    private void OpenPlayAgainButton()
+    {
+        Debug.Log("Working");
+        _playAgainButton.gameObject.SetActive(true);
+        _playAgainButton.DOScale(Vector3.one, 1f)
+            .SetDelay(1f)
+            .SetUpdate(true);
     }
 
     bool _isCardsSelectionOpened;
@@ -63,6 +115,7 @@ public class LevelController : MonoBehaviour
             StartLevel();
             TimeController.Instance.FinishSession();
             _leaderBoardManager.OpenSubmitPanel();
+            OnGameFinishLeaderBoardCloseButtons();
             //var finishSeconds = TimeController.Instance.FinishTimeSeconds;
             //var min = Mathf.FloorToInt(finishSeconds / 60f);
 
@@ -84,11 +137,42 @@ public class LevelController : MonoBehaviour
         skillCardsLeft[randomInt2].SetActive(true);
     }
 
+    public void FinishTutorialLevel()
+    {
+        _tutorialLevel.SetActive(false);
+        _levels[0].SetActive(true);
+        _nextLvl = 0;
+        PlayerTransformLvl(1, 0);
+        _colorChanger.SetStartColor();
+
+        for (int i = 0; i < _starts.Length; i++)
+        {
+            _starts[i].UnRegisterOnTriggerEnter(StartLevel);
+            _starts[i].RegisterOnTriggerEnter(OpenSkillCards);
+        }
+
+        for (int i = 0; i < _skillCards.Length; i++)
+            _skillCards[i].onClick.AddListener(StartLevel);
+
+        _tutorialLevelIsDone = true;
+    }
+
     public void StartLevel()
     {
+        if (!_tutorialLevelIsDone)
+        {
+            _tutorialLevel.SetActive(true);
+            _levels[0].SetActive(false);
+
+            PlayerTransformLvl(1, 0);
+            Debug.Log("Returning");
+            return;
+        }
+
         if (_nextLvl - 1 == 0)
             TimeController.Instance.StartSession();
 
+        Debug.Log("NextLevel: " + _nextLvl);
         _levels[_nextLvl - 1].SetActive(false);
         _levels[_nextLvl].SetActive(true);
         PlayerTransformLvl(1, 0);
@@ -108,7 +192,7 @@ public class LevelController : MonoBehaviour
     //        int randomInt = Random.Range(0, skillCards.Length);
     //        //print(randomInt);
     //        skillCards[randomInt].SetActive(true);
-            
+
     //        int randomInt2 = Random.Range(0, skillCardsLeft.Length);
     //        //print(randomInt2);
     //        skillCardsLeft[randomInt2].SetActive(true); 
@@ -258,7 +342,7 @@ public class LevelController : MonoBehaviour
     //    }
     //}
 
-    public void PlayerTransformLvl(float x , float y)
+    public void PlayerTransformLvl(float x, float y)
     {
         //silah seçme butonunda bu kýsmý da çaðýr
         player.transform.position = new Vector2(x, y);

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -6,8 +5,6 @@ using Dan.Main;
 using NaughtyAttributes;
 using System.Linq;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
-using UnityEngine.Rendering.Universal;
 
 public class LeaderBoardC : MonoBehaviour
 {
@@ -15,9 +12,26 @@ public class LeaderBoardC : MonoBehaviour
     [SerializeField] UserDataUI _playerData;
     [SerializeField] Settings _settings;
     [SerializeField] SubmitSettings _submitSettings;
+    [SerializeField] Transform _alreadyTakenTransform;
 
     private string publicLeaderBoardKey = "502429acc20560a32f68f286a04ef83b8b6088bf37e5571a4d984f33c432896f";
     //caee907125d85014a8097fc28bd122cbd3c3ecc4c096e294b1fef25c466936b6   Yeni LeaderBoard Keyi
+
+    [SerializeField] string _testUserName;
+    [SerializeField] int _testScore;
+
+    [Button]
+    public void Test()
+    {
+        LeaderboardCreator.GetLeaderboard(publicLeaderBoardKey, true, new Dan.Models.LeaderboardSearchQuery() { Username = _testUserName }, TestCallBack);
+    }
+
+    private void TestCallBack(Dan.Models.Entry[] msg)
+    {
+        Debug.Log("TestCallBack");
+        Debug.Log(msg.Length);
+    }
+
     private void Start()
     {
         GetLeaderBoard();
@@ -33,7 +47,6 @@ public class LeaderBoardC : MonoBehaviour
                 string scoreStr = "??.?? Secs";
 
                 bool check = i < list.Count;
-
 
                 if (check)
                 {
@@ -178,18 +191,62 @@ public class LeaderBoardC : MonoBehaviour
             });
     }
 
+    bool _isWaiting;
     public void Submit()
     {
-        if (_closeActionCalled) return;
+        if (_closeActionCalled || _isWaiting) return;
         var name = _submitSettings.InputField.text;
         if (string.IsNullOrEmpty(name)) return;
 
+        _isWaiting = true;
         PlayerPrefs.SetString(namePrefKey, name);
-        Debug.Log("Submit Name: " + name);
 
         PlayerPrefs.SetInt(lastScorePrefKey, _score);
-        SetLeaderBoardEntry(name, _score);
-        CloseSubmitPanel();
+        bool isNameAlreadyTaken = false;
+        LeaderboardCreator.GetLeaderboard(publicLeaderBoardKey, new Dan.Models.LeaderboardSearchQuery() { Username = name}, (msg) =>
+        {
+            for(int i = 0; i < msg.Length; i++)
+            {
+                var data = msg[i]; 
+                bool checkIsYou = msg[i].Extra == LeaderboardCreator.UserID;
+                if (!checkIsYou)
+                {
+                    isNameAlreadyTaken = true;
+                }
+            }
+        });
+
+        float waitTimer = 0f;
+        DOTween.To(() => waitTimer, (x) => waitTimer = x, 2f, 2f)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                if (isNameAlreadyTaken)
+                {
+                    _alreadyTakenTransform.gameObject.SetActive(true);
+                    _alreadyTakenTransform.localScale = Vector3.zero;
+                    _alreadyTakenTransform.DOScale(Vector3.one, 0.5f)
+                        .SetEase(_settings.OpenEase)
+                        .SetUpdate(true)
+                        .OnComplete(() =>
+                        {
+                            _alreadyTakenTransform.DOScale(Vector3.zero, 0.5f)
+                            .SetDelay(1f)
+                            .SetUpdate(true)
+                            .OnComplete(() =>
+                            { 
+                                _alreadyTakenTransform.gameObject.SetActive(false);
+                                _isWaiting = false;
+                            });
+                        });
+                }
+                else
+                {
+                    SetLeaderBoardEntry(name, _score);
+                    CloseSubmitPanel();
+                    _isWaiting = false;
+                }
+            });
     }
 
     [System.Serializable]

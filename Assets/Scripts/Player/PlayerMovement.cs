@@ -2,7 +2,6 @@ using DG.Tweening;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -40,6 +39,18 @@ public class PlayerMovement : MonoBehaviour
     Tween _landingPunchTween;
 
     [SerializeField] bool _debug;
+
+    public void ResetPlayer()
+    {
+        //GetComponent<SpriteRenderer>().enabled = false;
+        var eyes = GetComponentsInChildren<SpriteRenderer>();
+        for (int i = 0; i < eyes.Length; i++)
+        {
+            eyes[i].enabled = true;
+        }
+        _isDeath = false;
+        _gameStop = false;
+    }
 
     void Update()
     {
@@ -154,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool _isDeath;
+    public bool _isDeath;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_debug) return;
@@ -162,9 +173,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.transform.tag == "Bullet")
         {
-            Debug.Log("collision Name: " + collision.name);
+            //Debug.Log("collision Name: " + collision.name);
             DeathSounds.Play();
-            GetComponent<SpriteRenderer>().enabled = false;
+            //GetComponent<SpriteRenderer>().enabled = false;
             var eyes = GetComponentsInChildren<SpriteRenderer>();
             for (int i = 0; i < eyes.Length; i++)
             {

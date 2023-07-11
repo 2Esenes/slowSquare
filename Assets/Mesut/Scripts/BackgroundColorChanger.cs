@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class BackgroundColorChanger : MonoBehaviour
@@ -8,6 +6,16 @@ public sealed class BackgroundColorChanger : MonoBehaviour
     [SerializeField] Vector2 _minMaxColorRange;
 
     [SerializeField] SpriteRenderer _bgRenderer;
+
+    Color _startingColor;
+    private void Awake()
+    {
+        _startingColor = _bgRenderer.color;
+    }
+    public void SetStartColor()
+    {
+        _bgRenderer.color = _startingColor;
+    }
 
     public void ChangeBGColor()
     {

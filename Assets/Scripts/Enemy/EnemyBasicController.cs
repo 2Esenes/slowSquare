@@ -41,6 +41,11 @@ public class EnemyBasicController : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         _levelController = FindObjectOfType<LevelController>();
         cam = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
 
@@ -74,7 +79,6 @@ public class EnemyBasicController : MonoBehaviour
             {
                 Fire();
                 shootTime = GetShootTime();
-                Debug.Log("ShootTime: " + shootTime);
             }
         }
         else
@@ -88,7 +92,6 @@ public class EnemyBasicController : MonoBehaviour
                 Invoke("Fire", 0.4f);
                 
                 shootTime = GetShootTime();
-                Debug.Log("ShootTime: " + shootTime);
             }
         }
     }
@@ -107,7 +110,6 @@ public class EnemyBasicController : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.up * FireForce, ForceMode2D.Impulse);
         BulletFire.Play();
         muzzleFlasf.Play();
-        
     }
     public void Die()
     {  

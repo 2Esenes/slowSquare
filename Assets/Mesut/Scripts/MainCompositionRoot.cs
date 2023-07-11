@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainCompositionRoot : MonoBehaviour
@@ -32,11 +31,11 @@ public class MainCompositionRoot : MonoBehaviour
         _serviceReferences.ShockWaveController.Init();
 
         // === Other References Init ===
-        _otherReferences.PlayerMovement.RegisterOnDie(OnPlayerDie);
+        // _otherReferences.PlayerMovement.RegisterOnDie(OnPlayerDie);
         // =============================
     }
 
-    private void OnPlayerDie()
+    public void OnPlayerDie()
     {
         _serviceReferences.AdManager.ShowInterstatialByTime(null);
         _otherReferences.PlayerMovement.UnRegisterOnDie(OnPlayerDie);
