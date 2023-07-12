@@ -7,5 +7,6 @@ public class CursorController : MonoBehaviour
     public void ChooseCursor(Texture2D _curTex)
     {
         Cursor.SetCursor(_curTex, cursorHotSpot , CursorMode.Auto);
+        
     }
 }
