@@ -6,6 +6,8 @@ using Tabtale.TTPlugins;
 
 public class AdManager : MonoBehaviour
 {
+    public PlayerMovement playermo;
+    
     [SerializeField] private InAppPurchase _inAppPurchase;
     [SerializeField] private IronSourceMediationSettings _ironSourceMediationSettings;
     [SerializeField] private bool _isUnderThirteen;
@@ -62,6 +64,7 @@ public class AdManager : MonoBehaviour
         TimeController.Instance.ShowingFirstTime = true;
         TimeController.Instance.LastestShowedTime = time;
         _interstatialAdManager.ShowAd();
+        playermo.HomeAndAgainButton();//enesin eseri
     }
 
     private void OnInterstatialClosed(IronSourceAdInfo info)

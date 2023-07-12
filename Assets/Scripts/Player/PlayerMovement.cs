@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        _gameStop = false;
+        //_gameStop = false;
         if (_isDeath && Input.anyKeyDown)
         {
             HomeAndAgainButton();
@@ -76,6 +76,16 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
             isJumping = true;
             JumpSounds.Play();
+
+            if (_landingPunchTween != null)
+            {
+                _landingPunchTween.Kill();
+                _landingPunchTween = null;
+            }
+
+            transform.localScale = Vector3.one;
+            _jumpPunchTween = transform.DOPunchScale(_jumpPunchSettings.Punch, _jumpPunchSettings.Duration, _jumpPunchSettings.Vibrato, _jumpPunchSettings.Elasticity)
+                .SetUpdate(true);
         }
 
         if (Input.GetKeyDown(KeyCode.W) && !isJumping)
@@ -195,6 +205,7 @@ public class PlayerMovement : MonoBehaviour
     public void UnRegisterOnDie(System.Action action)
     {
         _onDie -= action;
+        //çok trash bi çözüm 
     }
 
     void OnCollisionEnter2D(Collision2D collision)
