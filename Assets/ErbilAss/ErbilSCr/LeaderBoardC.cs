@@ -14,7 +14,7 @@ public class LeaderBoardC : MonoBehaviour
     [SerializeField] SubmitSettings _submitSettings;
     [SerializeField] Transform _alreadyTakenTransform;
 
-    private string publicLeaderBoardKey = "502429acc20560a32f68f286a04ef83b8b6088bf37e5571a4d984f33c432896f";
+    private string publicLeaderBoardKey = "caee907125d85014a8097fc28bd122cbd3c3ecc4c096e294b1fef25c466936b6";
     //caee907125d85014a8097fc28bd122cbd3c3ecc4c096e294b1fef25c466936b6   Yeni LeaderBoard Keyi
 
     [SerializeField] string _testUserName;
