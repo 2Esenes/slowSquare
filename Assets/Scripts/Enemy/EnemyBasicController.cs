@@ -1,6 +1,6 @@
 using Cinemachine;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class EnemyBasicController : MonoBehaviour
 {
@@ -34,6 +34,10 @@ public class EnemyBasicController : MonoBehaviour
     //ates et flash yak
     private ParticleSystem muzzleFlasf;
 
+    //reload Slider
+    public Slider enemyReloadSlider;
+    public float OFAMK;
+
     public bool isTutoEnemy;
 
 
@@ -42,16 +46,18 @@ public class EnemyBasicController : MonoBehaviour
     private void Start()
     {
         Init();
+        
     }
 
     public void Init()
     {
         _levelController = FindObjectOfType<LevelController>();
         cam = FindObjectOfType<CinemachineVirtualCamera>().gameObject;
-
+        enemyReloadSlider = GetComponentInChildren<Slider>();
         //BulletFire = GameObject.Find("PlayerFire");
         //DieVoice = GameObject.Find("PlayerDeath");
         shootTime = GetShootTime();
+        OFAMK = shootTime;
     }
 
     float GetShootTime()
@@ -71,7 +77,7 @@ public class EnemyBasicController : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
         fireRotate.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        
+        enemyReloadSlider.value = shootTime / OFAMK;
 
         if (iHaveMachineGun == false)
         {
